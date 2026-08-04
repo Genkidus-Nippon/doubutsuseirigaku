@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>動物生理学I 期末2時間ブースト</title>
+<style>
+  :root{
+    --bg:#0d1117;          /* 深い生体の暗赤紺 */
+    --bg-2:#141b26;
+    --panel:#1a2230;
+    --ink:#eef2f8;
+    --ink-dim:#93a1b5;
+    --line:#2d3a4d;
+    --nerve:#38bdf8;       /* 神経＝電気の水色 */
+    --nerve-l:rgba(56,189,248,.14);
+    --endo:#f472b6;        /* 内分泌＝ピンク */
+    --endo-l:rgba(244,114,182,.14);
+    --muscle:#fb7185;      /* 筋・循環＝赤 */
+    --muscle-l:rgba(251,113,133,.14);
+    --blood:#c084fc;       /* 血液・呼吸・骨＝紫 */
+    --blood-l:rgba(192,132,252,.14);
+    --ok:#34d399; --ok-l:rgba(52,211,153,.13);
+    --warn:#fbbf24; --warn-l:rgba(251,191,36,.13);
+    --acc:#38bdf8;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:"Hiragino Sans","Yu Gothic UI",system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;padding-bottom:80px}
+  .mono,code{font-family:"SFMono-Regular",Menlo,Consolas,monospace}
+  .wrap{max-width:840px;margin:0 auto;padding:0 18px}
+  sub,sup{font-size:.72em}
+
+  header{background:linear-gradient(135deg,#131a26,#1c1420);border-bottom:1px solid var(--line);padding:24px 0 18px;position:relative;overflow:hidden}
+  header::after{content:"";position:absolute;right:-30px;top:-30px;width:200px;height:200px;background:radial-gradient(circle,rgba(56,189,248,.16),transparent 70%)}
+  .kicker{font-size:11px;letter-spacing:.26em;font-weight:700;color:var(--nerve);text-transform:uppercase}
+  h1{font-size:22px;font-weight:800;margin-top:6px}
+  h1 small{display:block;font-size:12px;font-weight:400;color:var(--ink-dim);margin-top:5px}
+
+  .prog{background:var(--bg-2);border-bottom:1px solid var(--line);padding:11px 0}
+  .prog .wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .bar{flex:1;min-width:130px;height:8px;background:#0a0e14;border-radius:5px;overflow:hidden}
+  .bar>span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--nerve),var(--endo));transition:width .4s}
+  .prog b{font-family:monospace;font-size:13px}
+  .timer{font-family:monospace;background:#0a0e14;border:1px solid var(--line);padding:4px 10px;border-radius:6px;font-size:14px;color:var(--nerve)}
+  .timer.warn{color:var(--warn)}
+  .tbtn{font:inherit;font-size:12px;font-weight:700;cursor:pointer;background:var(--nerve);border:none;color:#062430;padding:5px 12px;border-radius:6px}
+
+  nav.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:16px 0 2px}
+  nav.tabs button{font:inherit;font-size:13px;font-weight:700;cursor:pointer;background:var(--panel);border:1px solid var(--line);color:var(--ink-dim);padding:8px 13px;border-radius:9px}
+  nav.tabs button.active{background:var(--nerve);color:#062430;border-color:var(--nerve)}
+  section.view{display:none;padding-top:14px} section.view.active{display:block}
+
+  .hint{font-size:12.5px;color:var(--ink-dim);margin-bottom:12px} .hint b{color:var(--ink)}
+  .filterbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+  .filterbar button{font:inherit;font-size:12px;font-weight:700;cursor:pointer;background:var(--panel);border:1px solid var(--line);color:var(--ink-dim);padding:5px 11px;border-radius:15px}
+  .filterbar button.on{background:var(--endo);border-color:var(--endo);color:#3a0a24}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px}
+  .qnum{font-family:monospace;color:var(--ink-dim);font-size:11px;float:right}
+  .tag{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.03em;padding:3px 9px;border-radius:6px;margin:0 6px 4px 0}
+  .t-nerve{background:var(--nerve-l);color:#7dd3fc}
+  .t-endo{background:var(--endo-l);color:#f9a8d4}
+  .t-muscle{background:var(--muscle-l);color:#fca5b0}
+  .t-blood{background:var(--blood-l);color:#d8b4fe}
+  .t-freq{background:#f4a72c;color:#3a2600}
+  .t-calc{background:rgba(255,255,255,.09);color:#e9edf5;border:1px solid var(--line)}
+  .t-fill{background:rgba(52,211,153,.13);color:#6ee7b7}
+
+  .q-title{font-size:16.5px;font-weight:800;margin:8px 0 4px;line-height:1.4}
+  .learn{background:var(--nerve-l);border-left:3px solid var(--nerve);padding:12px 14px;border-radius:0 8px 8px 0;margin:12px 0}
+  .learn .lbl{font-size:10.5px;font-weight:800;letter-spacing:.14em;color:var(--nerve);margin-bottom:5px}
+  .learn ul{margin:6px 0 0 18px;font-size:14px} .learn li{margin:3px 0}
+  .key{background:var(--endo-l);color:#f9a8d4;border-radius:4px;padding:0 4px;font-weight:700}
+
+  .ask{font-size:15px;margin:8px 0 10px;font-weight:600} .ask b{color:var(--warn)}
+  .answer-in{width:100%;font:inherit;font-size:14.5px;padding:10px 12px;background:#0d1420;border:1px solid var(--line);border-radius:8px;color:var(--ink);resize:vertical}
+  .answer-in:focus{outline:none;border-color:var(--nerve)}
+  .opts{display:flex;flex-direction:column;gap:8px;margin:10px 0}
+  .opt{text-align:left;background:#0d1420;border:1px solid var(--line);border-radius:8px;padding:10px 13px;cursor:pointer;font:inherit;font-size:14px;color:var(--ink)}
+  .opt:hover{border-color:var(--nerve)}
+  .opt.correct{background:var(--ok-l);border-color:var(--ok)}
+  .opt.wrong{background:rgba(248,113,113,.14);border-color:#f87171}
+
+  .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px;align-items:center}
+  button.act{font:inherit;font-weight:700;cursor:pointer;border:none;padding:9px 16px;border-radius:8px;font-size:14px}
+  .btn-show{background:var(--nerve);color:#062430}
+  .btn-ghost{background:transparent;border:1px solid var(--line);color:var(--ink-dim)}
+  .btn-ok{background:var(--ok);color:#04211a}
+  .btn-again{background:var(--warn);color:#3a2c00}
+
+  .reveal{display:none;margin-top:12px;border-top:1px dashed var(--line);padding-top:13px}
+  .reveal.on{display:block;animation:fade .25s}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .ans-box{background:var(--ok-l);border-left:3px solid var(--ok);padding:11px 14px;border-radius:0 8px 8px 0}
+  .ans-box .lbl{font-size:10.5px;font-weight:800;letter-spacing:.14em;color:var(--ok);margin-bottom:5px}
+  .ans-box .body{font-size:14px} .ans-box .body ul{margin:5px 0 5px 18px} .ans-box .body li{margin:3px 0}
+  .ans-final{font-family:monospace;font-size:14.5px;font-weight:800;color:#6ee7b7;margin-top:8px;background:#0d1420;padding:6px 10px;border-radius:6px;display:inline-block;white-space:normal}
+  .selfgrade{margin-top:12px;font-size:12.5px;color:var(--ink-dim)}
+  .state-chip{font-size:10.5px;font-weight:800;padding:2px 8px;border-radius:5px;margin-left:4px}
+  .state-new{background:#0d1420;color:var(--ink-dim);border:1px solid var(--line)}
+  .state-ok{background:var(--ok-l);color:var(--ok)}
+  .state-review{background:var(--warn-l);color:var(--warn)}
+  details.deep{margin-top:10px}
+  details.deep summary{cursor:pointer;font-weight:700;color:var(--nerve);font-size:13px}
+  details.deep .db{margin-top:7px;font-size:13.5px;color:var(--ink-dim);padding-left:2px}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center}
+  .stat .n{font-family:monospace;font-size:30px;font-weight:800}
+  .stat .k{font-size:12px;color:var(--ink-dim);margin-top:2px}
+  .stat.ok .n{color:var(--ok)} .stat.rev .n{color:var(--warn)}
+  .plan{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;margin-top:16px}
+  .plan h3{font-size:15px;margin-bottom:10px} .plan ol{margin-left:20px;font-size:14px} .plan li{margin:6px 0}
+  .plan .t{font-family:monospace;color:var(--warn);font-weight:700}
+  .topic-row{display:flex;justify-content:space-between;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:9px 13px;margin-bottom:7px;font-size:13.5px}
+  .topic-row .c{font-family:monospace;color:var(--ink-dim)}
+
+  .cheat-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:14px}
+  .cheat-card h3{font-size:15px;margin-bottom:8px}
+  .cheat-card ul{margin-left:18px;font-size:14px} .cheat-card li{margin:5px 0}
+  .cheat-card table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+  .cheat-card th,.cheat-card td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
+  .cheat-card th{background:var(--bg-2)}
+  .empty{text-align:center;color:var(--ink-dim);padding:40px 0;font-size:14px}
+  footer{text-align:center;color:var(--ink-dim);font-size:11px;margin-top:30px;opacity:.75}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <span class="kicker">Animal Physiology I · Final · 60min</span>
+    <h1>動物生理学I 期末2時間ブースト
+      <small>令和4年度(2022)過去問ベース ｜ 神経・内分泌・筋循環・血液呼吸骨 ｜ 論述と穴埋めを反復で固める</small>
+    </h1>
+  </div>
+</header>
+
+<div class="prog">
+  <div class="wrap">
+    <b id="progText">0 / 0</b>
+    <div class="bar"><span id="progBar"></span></div>
+    <span class="timer" id="timer">2:00:00</span>
+    <button class="tbtn" id="timerBtn">開始</button>
+  </div>
+</div>
+
+<div class="wrap">
+  <nav class="tabs" id="tabs">
+    <button data-view="drill" class="active">① 反復ドリル</button>
+    <button data-view="dash">② 進捗・戦略</button>
+    <button data-view="cheat">③ 直前チートシート</button>
+  </nav>
+
+  <section class="view active" id="drill">
+    <div class="filterbar" id="filterbar">
+      <button data-f="all" class="on">すべて</button>
+      <button data-f="review">要復習</button>
+      <button data-f="nerve">神経(問1)</button>
+      <button data-f="endo">内分泌(問2)</button>
+      <button data-f="muscle">筋・循環(問3)</button>
+      <button data-f="blood">血液呼吸骨(問4)</button>
+    </div>
+    <div class="hint">使い方：<b>📥INPUT</b>で要点を頭に入れる → <b>📤OUTPUT</b>で自分の言葉で答える／穴を埋める → 模範解答と照合し<b>「書けた／もう一度」</b>で自己採点。「もう一度」は要復習に回り繰り返し出題。<br>論述は<b>キーワードを口に出して言えるか</b>を採点基準にすると効率的です。</div>
+    <div id="cards"></div>
+    <div class="empty" id="emptyMsg" style="display:none">この条件のカードはありません。</div>
+  </section>
+
+  <section class="view" id="dash">
+    <div class="grid">
+      <div class="stat"><div class="n" id="sNew">0</div><div class="k">未着手</div></div>
+      <div class="stat ok"><div class="n" id="sOk">0</div><div class="k">習得済み</div></div>
+      <div class="stat rev"><div class="n" id="sRev">0</div><div class="k">要復習</div></div>
+      <div class="stat"><div class="n" id="sPct">0%</div><div class="k">完成度</div></div>
+    </div>
+    <div class="plan">
+      <h3>⏱ 2時間の攻め方</h3>
+      <ol>
+        <li><span class="t">0:00–0:20</span> チートシート③を通読。4分野の骨組みを頭に入れる。</li>
+        <li><span class="t">0:20–1:10</span> ドリル①を1周。論述は要点(キーワード)を言えればOK。</li>
+        <li><span class="t">1:10–1:35</span> 「要復習」で詰まった論述・穴埋めだけ2周目。</li>
+        <li><span class="t">1:35–2:00</span> 副腎・骨リモデリングの<b>穴埋めを紙で再現</b>＋肺胞換気量の計算を通しで。</li>
+      </ol>
+      <p class="hint" style="margin-top:10px">4人の先生が各1問。<b>穴埋め2問（副腎ホルモン・骨リモデリング）は語句を正確に</b>覚えれば確実に点になります。論述は「比較して違いを述べる」型が多いので、対比のキーワードを押さえるのがコツ。</p>
+    </div>
+    <div id="topicList" style="margin-top:16px"></div>
+    <div class="row" style="margin-top:16px"><button class="act btn-ghost" id="resetBtn">進捗をリセット</button></div>
+  </section>
+
+  <section class="view" id="cheat"></section>
+</div>
+
+<footer>©Genkidus ｜ 令和4年度 動物生理学I 過去問ベース ｜ 進捗はこのセッションのみ</footer>
+
+<script>
+const CARDS=[
+/* ================= 問1 神経（金先生） ================= */
+{id:'n-ap',type:'nerve',freq:true,tag:['神経','活動電位','比較'],src:'問1(1)',
+ title:'活動電位が局所応答と異なる点',
+ learn:['活動電位：<span class="key">閾値を超えると発生</span>し<span class="key">全か無かの法則</span>に従う／大きさ一定／<span class="key">減衰せず伝導</span>／<span class="key">不応期あり</span>。',
+        '局所応答（電気緊張性電位）：<span class="key">閾値以下でも生じ、刺激強度に比例（段階的）</span>／<span class="key">距離とともに減衰</span>／加重できる／不応期なし。'],
+ mode:'text',
+ ask:'活動電位が局所応答と異なる点を述べよ。',
+ ansHTML:'活動電位は①<b>閾値を超えたときのみ発生し「全か無かの法則」</b>に従う（刺激を強めても大きさは一定）、②<b>減衰せずに一定の大きさで伝導</b>する、③<b>不応期がある</b>ため加重・逆行しない。<br>一方、局所応答は<b>閾値以下でも生じ刺激強度に応じて段階的に変化</b>し、<b>距離とともに減衰</b>し、加重可能で不応期がない。',
+ final:'全か無か・非減衰伝導・不応期あり',
+ deep:'活動電位はNa⁺チャネルの再生的開口による。局所応答はそこに至らない受動的な膜電位変化。'},
+
+{id:'n-transmission',type:'nerve',freq:true,tag:['神経','シナプス伝達','比較'],src:'問1(2)',
+ title:'通常型伝達と調節性伝達の特徴',
+ learn:['通常型（速い）：<span class="key">イオンチャネル型受容体</span>に直接作用→<span class="key">速い・短時間</span>のシナプス後電位（例:グルタミン酸,GABA）。',
+        '調節性（遅い）：<span class="key">代謝型(Gタンパク質共役)受容体</span>を介し<span class="key">セカンドメッセンジャー</span>で作用→<span class="key">遅く・持続的</span>、興奮性を修飾（例:モノアミン,神経ペプチド）。'],
+ mode:'text',
+ ask:'通常型伝達と調節性伝達の特徴を説明せよ。',
+ ansHTML:'<b>通常型伝達</b>：伝達物質が<b>イオンチャネル型（イオンチャネル内蔵）受容体</b>に結合し、直接チャネルを開くため<b>反応が速く短時間</b>で終わる。素早い興奮/抑制の伝達を担う。<br><b>調節性伝達</b>：<b>代謝型（Gタンパク質共役）受容体</b>を介し、<b>セカンドメッセンジャー系</b>を活性化して作用するため<b>反応が遅く持続的</b>。ニューロンの興奮性そのものを修飾する。',
+ final:'通常型=チャネル型/速い, 調節性=代謝型/遅い持続',
+ deep:''},
+
+{id:'n-glia',type:'nerve',freq:true,tag:['神経','グリア細胞'],src:'問1(3)',
+ title:'グリア細胞について',
+ learn:['神経系の<span class="key">支持細胞</span>。ニューロンより多数。活動電位は出さない。',
+        '中枢：<span class="key">アストロサイト</span>(支持・栄養・血液脳関門・K⁺緩衝)、<span class="key">オリゴデンドロサイト</span>(髄鞘形成)、<span class="key">ミクログリア</span>(免疫・貪食)。',
+        '末梢：<span class="key">シュワン細胞</span>(髄鞘形成)。'],
+ mode:'text',
+ ask:'グリア細胞について説明せよ。',
+ ansHTML:'グリア細胞はニューロンを<b>支持・保護・栄養</b>する細胞で、自ら活動電位は発生しない。<br>中枢では<b>アストロサイト</b>（栄養供給・血液脳関門の形成・細胞外K⁺やイオン環境の調節）、<b>オリゴデンドロサイト</b>（中枢の髄鞘＝ミエリン形成）、<b>ミクログリア</b>（免疫・貪食）があり、末梢では<b>シュワン細胞</b>が髄鞘を形成する。髄鞘は跳躍伝導を可能にする。',
+ final:'支持細胞：アストロ/オリゴ/ミクロ/シュワン',
+ deep:'髄鞘（ミエリン）による跳躍伝導＝ランビエ絞輪でのみ活動電位が飛ぶ→伝導速度up。'},
+
+/* ================= 問2 内分泌（吉村先生） ================= */
+{id:'e-def',type:'endo',freq:true,tag:['内分泌','ホルモン定義'],src:'問2(1)',
+ title:'ホルモンの一般的定義',
+ learn:['<span class="key">内分泌腺（細胞）</span>から<span class="key">血液中に分泌</span>され、<span class="key">遠隔の標的器官</span>まで運ばれる。',
+        '<span class="key">微量</span>で作用し、標的細胞の<span class="key">特異的受容体</span>に結合して生理機能を調節する化学物質。'],
+ mode:'text',
+ ask:'ホルモンの一般的定義を説明せよ。',
+ ansHTML:'ホルモンとは、<b>内分泌腺（内分泌細胞）から血液（体液）中に分泌され</b>、循環を介して<b>離れた標的器官・細胞へ運ばれ</b>、そこの<b>特異的な受容体に結合して微量で生理機能を調節する</b>化学伝達物質である。',
+ final:'内分泌腺→血中→標的の特異受容体、微量で作用',
+ deep:''},
+
+{id:'e-secretion',type:'endo',freq:true,tag:['内分泌','分泌様式'],src:'問2(2)',
+ title:'ホルモンの分泌様式3つ',
+ learn:['<span class="key">内分泌(endocrine)</span>：血流を介して遠隔の標的へ。',
+        '<span class="key">傍分泌(paracrine)</span>：分泌細胞の近傍の細胞へ拡散して作用。',
+        '<span class="key">自己分泌(autocrine)</span>：分泌した細胞自身に作用。'],
+ mode:'text',
+ ask:'ホルモンの分泌様式を3つ説明せよ。',
+ ansHTML:'① <b>内分泌（endocrine）</b>：血液中に分泌され、循環を介して離れた標的器官に作用する。<br>② <b>傍分泌（paracrine）</b>：分泌細胞の<b>近隣の細胞</b>へ拡散して局所的に作用する。<br>③ <b>自己分泌（autocrine）</b>：分泌した<b>細胞自身</b>（または同種細胞）に作用する。',
+ final:'内分泌・傍分泌・自己分泌',
+ deep:'神経分泌（neurosecretion：神経細胞が血中にホルモン放出）を4つ目に挙げる流儀もある。'},
+
+{id:'e-receptor',type:'endo',freq:true,tag:['内分泌','受容体'],src:'問2(3)',
+ title:'細胞質性受容体に結合し核内で転写を誘発するホルモン',
+ learn:['<span class="key">脂溶性ホルモン（ステロイド・甲状腺ホルモン）</span>は細胞膜を通過し<span class="key">細胞質/核内の受容体</span>に結合→<span class="key">転写調節</span>。',
+        '水溶性（インスリン・成長ホルモン・アドレナリン）は<span class="key">細胞膜表面の受容体</span>に結合。'],
+ mode:'mcq',
+ ask:'細胞質性受容体に結合し核内で転写変化を誘発する可能性が最も高いのはどれか。',
+ opts:['A インスリン','B 成長ホルモン','C アドレナリン','D 甲状腺ホルモン'],
+ correct:3,
+ ansHTML:'正解：<b>D 甲状腺ホルモン</b>。<br>甲状腺ホルモンは<b>脂溶性</b>で細胞膜を通過でき、細胞内（核内）受容体に結合して<b>遺伝子の転写を調節</b>する。A・B・Cは水溶性で細胞膜表面の受容体に結合する。',
+ final:'D 甲状腺ホルモン（脂溶性→核内受容体）',
+ deep:'ステロイドホルモンも同じく核内受容体型。脂溶性か水溶性かで受容体の場所が決まる。'},
+
+{id:'e-thyroid',type:'endo',freq:false,tag:['内分泌','甲状腺'],src:'問2(4)',
+ title:'甲状腺ホルモンで生物学活性が高い形態',
+ learn:['甲状腺ホルモンは血中で大部分が<span class="key">結合タンパク質に結合</span>して運ばれる（不活性の貯蔵形）。',
+        '実際に細胞に入り作用するのは<span class="key">遊離型（非結合）</span>。'],
+ mode:'mcq',
+ ask:'どの形態の甲状腺ホルモンが生物学活性が高いか。',
+ opts:['A アルブミンと結合','B トランスサイレチンと結合','C サイログロブリンと結合','D 非結合（遊離型）'],
+ correct:3,
+ ansHTML:'正解：<b>D 非結合（遊離型）</b>。<br>血中の甲状腺ホルモンの大半は運搬タンパク質（アルブミン、トランスサイレチン、サイロキシン結合グロブリン等）に結合しているが、これらは貯蔵・運搬形で不活性。<b>タンパク質に結合していない遊離型（free T3/T4）だけが細胞内に入り作用</b>する。',
+ final:'D 非結合（遊離型）',
+ deep:'サイログロブリンは甲状腺内でのホルモン合成・貯蔵の足場タンパク質。'},
+
+/* ================= 問3 筋・循環（阿部先生） ================= */
+{id:'m-ec',type:'muscle',freq:true,tag:['筋','興奮収縮連関','比較'],src:'問3(1)',
+ title:'骨格筋と平滑筋の興奮収縮連関（Ca²⁺上昇→収縮開始）',
+ learn:['骨格筋：Ca²⁺が<span class="key">トロポニンC</span>に結合→トロポミオシンが動き<span class="key">アクチンの結合部位が露出</span>→ミオシンが結合し収縮。',
+        '平滑筋：トロポニンがない。Ca²⁺が<span class="key">カルモジュリン</span>に結合→<span class="key">ミオシン軽鎖キナーゼ(MLCK)</span>活性化→<span class="key">ミオシン軽鎖をリン酸化</span>→ミオシンが活性化し収縮。'],
+ mode:'text',
+ ask:'骨格筋細胞・平滑筋細胞それぞれで、細胞内Ca²⁺上昇が筋収縮を開始させるまでの仕組みを説明せよ。',
+ ansHTML:'<b>骨格筋</b>：興奮でCa²⁺が上昇すると、Ca²⁺が<b>トロポニンC</b>に結合する。するとトロポミオシンの位置がずれてアクチン上の<b>ミオシン結合部位が露出</b>し、ミオシン頭部が結合して滑り運動（収縮）が起こる。<br><b>平滑筋</b>：トロポニンを持たない。Ca²⁺は<b>カルモジュリン</b>と結合し、この複合体が<b>ミオシン軽鎖キナーゼ（MLCK）</b>を活性化する。MLCKが<b>ミオシン軽鎖をリン酸化</b>することでミオシンがアクチンと相互作用できるようになり収縮する。',
+ final:'骨格筋=トロポニンC / 平滑筋=カルモジュリン→MLCK→軽鎖リン酸化',
+ deep:'この「トロポニン系 vs カルモジュリン/MLCK系」の対比が典型的な論述の得点源。'},
+
+{id:'m-cardiac',type:'muscle',freq:true,tag:['循環','心筋','活動電位'],src:'問3(2)',
+ title:'洞房結節と心室筋：活動電位と役割の違い',
+ learn:['洞房結節（特殊心筋）：<span class="key">自動能（ペースメーカー）</span>。<span class="key">安定した静止電位を持たず緩やかに脱分極</span>、立ち上がりは<span class="key">Ca²⁺流入</span>による（プラトーなし）。',
+        '心室筋（固有心筋）：<span class="key">Na⁺による急速な立ち上がり＋Ca²⁺によるプラトー相</span>で活動電位が長い。実際の<span class="key">収縮（ポンプ作用）</span>を担う。'],
+ mode:'text',
+ ask:'洞房結節(特殊心筋)と心室筋(固有心筋)の活動電位波形の違いと、心臓の収縮で果たす役割の違いを説明せよ。',
+ ansHTML:'<b>洞房結節（特殊心筋）</b>：安定した静止膜電位を持たず<b>自発的に緩徐脱分極</b>して閾値に達し発火する（自動能）。立ち上がりは主に<b>Ca²⁺流入</b>により緩やか。役割は<b>ペースメーカー</b>として拍動リズムを生み出し刺激伝導系へ伝えること。<br><b>心室筋（固有心筋）</b>：<b>Na⁺による急速な立ち上がり</b>の後、<b>Ca²⁺流入による長いプラトー相</b>を持つため活動電位が長く不応期も長い。役割は<b>実際に収縮して血液を送り出すポンプ</b>。',
+ final:'洞房結節=自動能ペースメーカー / 心室筋=プラトーで収縮・ポンプ',
+ deep:'プラトー相が長い→強縮を防ぎ、収縮と弛緩を規則正しく繰り返せる。'},
+
+{id:'m-vessel',type:'muscle',freq:true,tag:['循環','血管壁'],src:'問3(3)',
+ title:'血管壁の構造と動脈の弾性の意義',
+ learn:['血管壁は3層：<span class="key">内膜（内皮）・中膜（平滑筋+弾性線維）・外膜</span>。毛細血管は内皮＋基底膜のみ。',
+        '動脈（特に大動脈）は<span class="key">弾性線維が多く弾性が強い</span>。',
+        '意義：収縮期に伸展して血液を蓄え、拡張期に<span class="key">弾性で押し戻す</span>→<span class="key">拍動性の血流をならして持続的な流れ（ウィンドケッセル効果）</span>にし、末梢へ安定供給。'],
+ mode:'text',
+ ask:'毛細血管以外の血管壁の構造を説明し、動脈の弾性が強いことの機能的意義を述べよ。',
+ ansHTML:'血管壁は内側から<b>内膜（内皮細胞）・中膜（平滑筋と弾性線維）・外膜（結合組織）</b>の3層から成る（毛細血管は内皮＋基底膜のみ）。<br>動脈、特に大動脈は<b>弾性線維に富み弾性が強い</b>。心臓の収縮期には血管壁が伸展して血液の一部を蓄え、<b>拡張期には弾性で縮んで血液を末梢へ押し出す</b>。これにより心臓の拍動による断続的な拍出を<b>ならして連続的で安定した血流に変える（ウィンドケッセル効果）</b>とともに、血圧の急激な変動を緩和する。',
+ final:'内膜・中膜・外膜 / 弾性で拍動を平滑化(ウィンドケッセル)',
+ deep:''},
+
+{id:'m-adrenal',type:'muscle',freq:true,tag:['内分泌','副腎','穴埋め'],src:'問3(4)',
+ title:'副腎ホルモン穴埋め（A〜F）',
+ learn:['副腎皮質：束状層→<span class="key">糖質(A)コルチコイド</span>、球状層→<span class="key">鉱質(B)コルチコイド</span>。',
+        '糖質コルチコイド：タンパク質・脂肪を分解し<span class="key">血糖(C)を増加</span>、<span class="key">免疫/炎症(D)を抑制</span>。',
+        '鉱質コルチコイド：腎臓の<span class="key">尿細管(E)</span>で<span class="key">Na⁺(F)の再吸収</span>を増大。'],
+ mode:'text',
+ ask:'A〜Fを答えよ：束状層＝[A]コルチコイド、球状層＝[B]コルチコイド。[A]はタンパク質/中性脂肪分解で[C]を増加させ[D]の働きを抑制。[B]は腎臓の[E]で[F]の再吸収を増大。',
+ ansHTML:'<b>A＝糖質（グルコ）</b>コルチコイド、<b>B＝鉱質（ミネラル）</b>コルチコイド<br><b>C＝血糖（血中グルコース）</b>、<b>D＝免疫・炎症反応</b>（の働きを抑制）<br><b>E＝（腎）尿細管</b>、<b>F＝ナトリウム（Na⁺）</b>',
+ final:'A糖質 B鉱質 C血糖 D免疫/炎症 E尿細管 FNa⁺',
+ deep:'糖質コルチコイド=コルチゾール（束状層）、鉱質コルチコイド=アルドステロン（球状層）。網状層はアンドロゲン。'},
+
+/* ================= 問4 血液・呼吸・骨（大川先生） ================= */
+{id:'b-p50',type:'blood',freq:true,tag:['呼吸','酸素解離曲線'],src:'問4(1)',
+ title:'ヘモグロビン酸素解離曲線のP₅₀を増加させる要因3つ',
+ learn:['P₅₀増加＝曲線が<span class="key">右方移動</span>＝Hbの酸素親和性低下（末梢で酸素を離しやすい）。',
+        '右方移動の要因：<span class="key">CO₂分圧上昇・H⁺増加（pH低下＝ボーア効果）・温度上昇・2,3-BPG(DPG)増加</span>。'],
+ mode:'text',
+ ask:'ヘモグロビンの酸素解離曲線のP₅₀を増加させる要因を3つあげよ。',
+ ansHTML:'P₅₀の増加は曲線の<b>右方移動</b>（酸素親和性の低下）を意味する。要因は次のうち3つ：<br>① <b>CO₂分圧の上昇</b><br>② <b>pHの低下（H⁺濃度の増加）＝ボーア効果</b><br>③ <b>温度の上昇</b><br>④ <b>2,3-ビスホスホグリセリン酸（2,3-BPG/DPG）の増加</b>',
+ final:'CO₂↑・pH↓(H⁺↑)・温度↑・2,3-BPG↑ から3つ',
+ deep:'活動中の組織はCO₂↑・H⁺↑・温度↑になり右方移動→酸素を効率よく放出する合目的な仕組み。'},
+
+{id:'b-immune',type:'blood',freq:true,tag:['血液','免疫細胞'],src:'問4(2)',
+ title:'免疫系の細胞を特徴から同定',
+ learn:['MHC上の抗原を認識し感染細胞を破壊＝<span class="key">キラーT細胞（細胞傷害性T細胞/CD8）</span>。',
+        '単球が分化し組織に分布・貪食・抗原提示＝<span class="key">マクロファージ</span>。',
+        '巨核球から生成し止血＝<span class="key">血小板</span>。顆粒球で強い貪食＝<span class="key">好中球</span>。'],
+ mode:'text',
+ ask:'a〜dの免疫系細胞を答えよ：a=MHC上抗原を認識し感染細胞を破壊 / b=単球由来で全組織に分布し貪食＋抗原提示 / c=巨核球由来で止血 / d=顆粒球で強い貪食。',
+ ansHTML:'a＝<b>キラーT細胞（細胞傷害性T細胞、CD8⁺T細胞）</b><br>b＝<b>マクロファージ</b><br>c＝<b>血小板</b><br>d＝<b>好中球</b>',
+ final:'a キラーT / b マクロファージ / c 血小板 / d 好中球',
+ deep:'bで「樹状細胞」も抗原提示するが「単球が分化」「あらゆる組織に分布し貪食」の記述からマクロファージが最適。'},
+
+{id:'b-ventilation',type:'blood',freq:true,tag:['呼吸','計算'],src:'問4(3)',
+ title:'肺胞換気量の計算',
+ learn:['肺胞換気量＝<span class="key">(1回換気量 − 死腔量) × 呼吸数</span>。',
+        '死腔（150mL）はガス交換に関与しない分。'],
+ mode:'text',
+ ask:'1回換気量450mL、死腔150mL、呼吸数15回/分のとき、1分あたりの肺胞換気量は？',
+ ansHTML:'肺胞換気量 =(1回換気量 − 死腔量)× 呼吸数<br>=(450 − 150)× 15 = 300 × 15 = <b>4500 mL/分（＝4.5 L/分）</b>',
+ final:'4500 mL/分（4.5 L/分）',
+ deep:'毎分換気量(450×15=6750)と混同しないこと。死腔を引くのがポイント。'},
+
+{id:'b-bone',type:'blood',freq:true,tag:['骨','リモデリング','穴埋め'],src:'問4(4)',
+ title:'骨リモデリングの穴埋め（a〜h）',
+ learn:['骨塩の99%＝<span class="key">ハイドロキシアパタイト(a)</span>。骨芽細胞が分泌する<span class="key">アルカリホスファターゼ(b)</span>でリン酸濃度上昇→<span class="key">カルシウム(c)</span>が膠原繊維に沈着し骨形成。',
+        '骨芽細胞は<span class="key">PTH(d)</span>と<span class="key">活性型ビタミンD(e)</span>で<span class="key">破骨細胞(f)</span>の分化を促進。破骨細胞はH⁺分泌で<span class="key">アパタイト(a)</span>を分解しCa(c)を血中へ。',
+        'ビタミンD前駆体は食物摂取後<span class="key">肝臓(g)</span>と<span class="key">腎臓(h)</span>で水酸化され活性型に。'],
+ mode:'text',
+ ask:'a〜hを埋めよ（骨塩99%=a、骨芽細胞分泌のb、沈着するc、2ホルモンd・e、分化促進されるf、活性化の水酸化部位g・h）。',
+ ansHTML:'<b>a＝ハイドロキシアパタイト（ヒドロキシアパタイト）</b><br><b>b＝アルカリホスファターゼ</b><br><b>c＝カルシウム（Ca²⁺）</b><br><b>d＝副甲状腺ホルモン（PTH）</b>、<b>e＝活性型ビタミンD</b>（＝1,25-(OH)₂ビタミンD₃）<br><b>f＝破骨細胞</b><br><b>g＝肝臓</b>、<b>h＝腎臓</b>',
+ final:'a アパタイト b ALP c Ca d PTH e 活性型VitD f 破骨細胞 g 肝臓 h 腎臓',
+ deep:'ビタミンD活性化：皮膚/食物→肝臓で25位水酸化→腎臓で1位水酸化→活性型1,25-(OH)₂D₃。骨芽細胞がRANKL等を介して破骨細胞分化を促す。'},
+];
+
+/* ================= 状態管理 ================= */
+const TYPE_LABEL={nerve:'神経(問1)',endo:'内分泌(問2)',muscle:'筋・循環(問3)',blood:'血液呼吸骨(問4)'};
+const state={};CARDS.forEach(c=>state[c.id]='new');
+let filter='all';
+const cardsEl=document.getElementById('cards'),emptyMsg=document.getElementById('emptyMsg');
+function tagHTML(tags,type){return tags.map(t=>{
+  let cls='t-'+type;
+  if(t.includes('★'))cls='t-freq';
+  else if(t==='計算')cls='t-calc';
+  else if(t==='穴埋め')cls='t-fill';
+  return `<span class="tag ${cls}">${t}</span>`;}).join('');}
+function stChip(id){const s=state[id];
+  return s==='ok'?'<span class="state-chip state-ok">習得済</span>'
+   :s==='review'?'<span class="state-chip state-review">要復習</span>'
+   :'<span class="state-chip state-new">未着手</span>';}
+function cardHTML(c){
+  const learn=`<ul>${c.learn.map(l=>`<li>${l}</li>`).join('')}</ul>`;
+  let out=c.mode==='mcq'
+    ?`<div class="opts">${c.opts.map((o,i)=>`<button class="opt" data-i="${i}">${o}</button>`).join('')}</div>`
+    :`<textarea class="answer-in" rows="3" placeholder="自分の答え・キーワードを書いてから解答表示"></textarea>`;
+  const deep=c.deep?`<details class="deep"><summary>＋発展・関連ポイント</summary><div class="db">${c.deep}</div></details>`:'';
+  return `<div class="card" data-id="${c.id}" data-type="${c.type}" data-mode="${c.mode}">
+    <span class="qnum">${c.src}</span>
+    ${tagHTML(c.tag,c.type)}${stChip(c.id)}
+    <div class="q-title">${c.title}</div>
+    <div class="learn"><div class="lbl">📥 INPUT ｜ 要点をインプット</div>${learn}</div>
+    <div class="ask"><b>📤 OUTPUT ｜</b> ${c.ask}</div>
+    ${out}
+    <div class="row">
+      ${c.mode==='text'?'<button class="act btn-show" data-act="show">模範解答を見る</button>':''}
+      <button class="act btn-ghost" data-act="skip">スキップ</button>
+    </div>
+    <div class="reveal">
+      <div class="ans-box"><div class="lbl">✔ 模範解答</div><div class="body">${c.ansHTML}</div>
+        ${c.final?`<div class="ans-final">要点 → ${c.final}</div>`:''}</div>
+      ${deep}
+      <div class="selfgrade">自己採点：キーワードを言えたか？</div>
+      <div class="row">
+        <button class="act btn-ok" data-act="ok">✓ 書けた</button>
+        <button class="act btn-again" data-act="again">↺ もう一度</button>
+      </div>
+    </div>
+  </div>`;
+}
+function render(){
+  let list=CARDS;
+  if(filter==='review')list=CARDS.filter(c=>state[c.id]==='review');
+  else if(filter!=='all')list=CARDS.filter(c=>c.type===filter);
+  cardsEl.innerHTML=list.map(cardHTML).join('');
+  emptyMsg.style.display=list.length?'none':'block';
+  updateProgress();
+}
+cardsEl.addEventListener('click',e=>{
+  const card=e.target.closest('.card');if(!card)return;
+  const id=card.dataset.id,reveal=card.querySelector('.reveal'),c=CARDS.find(x=>x.id===id);
+  if(e.target.classList.contains('opt')){
+    const i=+e.target.dataset.i;card.querySelectorAll('.opt').forEach(o=>o.disabled=true);
+    if(i===c.correct)e.target.classList.add('correct');
+    else{e.target.classList.add('wrong');card.querySelector(`.opt[data-i="${c.correct}"]`).classList.add('correct');}
+    reveal.classList.add('on');return;
+  }
+  const act=e.target.dataset.act;
+  if(act==='show')reveal.classList.add('on');
+  else if(act==='skip'){const n=card.nextElementSibling;if(n)n.scrollIntoView({behavior:'smooth',block:'start'});}
+  else if(act==='ok'){state[id]='ok';afterGrade(card);}
+  else if(act==='again'){state[id]='review';afterGrade(card);}
+});
+function afterGrade(card){
+  updateProgress();
+  const nextId=card.nextElementSibling?card.nextElementSibling.dataset.id:null;
+  card.style.transition='opacity .3s';card.style.opacity='.5';
+  setTimeout(()=>{render();
+    if(nextId){const el=document.querySelector(`.card[data-id="${nextId}"]`);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
+  },60);
+}
+function updateProgress(){
+  const total=CARDS.length,ok=CARDS.filter(c=>state[c.id]==='ok').length,rev=CARDS.filter(c=>state[c.id]==='review').length;
+  document.getElementById('progText').textContent=`${ok} / ${total} 習得`;
+  document.getElementById('progBar').style.width=(ok/total*100)+'%';
+  document.getElementById('sNew').textContent=total-ok-rev;
+  document.getElementById('sOk').textContent=ok;
+  document.getElementById('sRev').textContent=rev;
+  document.getElementById('sPct').textContent=Math.round(ok/total*100)+'%';
+  renderTopics();
+}
+function renderTopics(){
+  const el=document.getElementById('topicList');if(!el)return;
+  const g={};CARDS.forEach(c=>{(g[c.type]=g[c.type]||[]).push(c);});
+  el.innerHTML=Object.keys(g).map(t=>{const arr=g[t],ok=arr.filter(c=>state[c.id]==='ok').length;
+    return `<div class="topic-row"><span>${TYPE_LABEL[t]}</span><span class="c">${ok} / ${arr.length}</span></div>`;}).join('');
+}
+document.getElementById('filterbar').addEventListener('click',e=>{
+  if(e.target.tagName!=='BUTTON')return;
+  document.querySelectorAll('#filterbar button').forEach(b=>b.classList.remove('on'));
+  e.target.classList.add('on');filter=e.target.dataset.f;render();
+});
+document.getElementById('tabs').addEventListener('click',e=>{
+  if(e.target.tagName!=='BUTTON')return;
+  document.querySelectorAll('#tabs button').forEach(b=>b.classList.remove('active'));
+  e.target.classList.add('active');
+  const v=e.target.dataset.view;
+  document.querySelectorAll('.view').forEach(s=>s.classList.remove('active'));
+  document.getElementById(v).classList.add('active');
+  if(v==='dash')updateProgress();
+});
+document.getElementById('resetBtn').addEventListener('click',()=>{CARDS.forEach(c=>state[c.id]='new');render();});
+
+let secs=2*3600,running=false,tid=null;
+const tEl=document.getElementById('timer'),tBtn=document.getElementById('timerBtn');
+function fmt(s){const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;
+  return `${h}:${String(m).padStart(2,'0')}:${String(x).padStart(2,'0')}`;}
+tBtn.addEventListener('click',()=>{
+  running=!running;tBtn.textContent=running?'一時停止':'再開';
+  if(running)tid=setInterval(()=>{if(secs>0){secs--;tEl.textContent=fmt(secs);if(secs<=600)tEl.classList.add('warn');}
+    else{clearInterval(tid);running=false;tBtn.textContent='終了';}},1000);
+  else clearInterval(tid);
+});
+
+document.getElementById('cheat').innerHTML=`
+  <div class="cheat-card">
+    <h3>⚡ 神経（問1・金先生）</h3>
+    <ul>
+      <li><b>活動電位</b>：全か無か・大きさ一定・非減衰伝導・不応期あり ／ <b>局所応答</b>：段階的・減衰・加重可・不応期なし</li>
+      <li><b>通常型伝達</b>＝イオンチャネル型受容体・速い ／ <b>調節性伝達</b>＝代謝型(G蛋白)受容体・セカンドメッセンジャー・遅く持続</li>
+      <li><b>グリア</b>：アストロサイト(栄養/血液脳関門/K⁺調節)、オリゴデンドロサイト(中枢の髄鞘)、ミクログリア(貪食)、シュワン細胞(末梢の髄鞘)</li>
+    </ul>
+  </div>
+  <div class="cheat-card">
+    <h3>💊 内分泌（問2・吉村先生）</h3>
+    <ul>
+      <li><b>定義</b>：内分泌腺→血中→遠隔標的の特異受容体、微量で作用</li>
+      <li><b>分泌様式</b>：内分泌 / 傍分泌 / 自己分泌（＋神経分泌）</li>
+      <li><b>核内受容体型</b>＝脂溶性(ステロイド・甲状腺ホルモン)→転写調節。水溶性(インスリン等)は膜表面受容体</li>
+      <li>甲状腺ホルモンは<b>遊離型(非結合)が活性</b></li>
+    </ul>
+  </div>
+  <div class="cheat-card">
+    <h3>💪 筋・循環（問3・阿部先生）</h3>
+    <table>
+      <tr><th></th><th>骨格筋</th><th>平滑筋</th></tr>
+      <tr><td>Ca²⁺標的</td><td>トロポニンC</td><td>カルモジュリン</td></tr>
+      <tr><td>機構</td><td>結合部位露出</td><td>MLCK→軽鎖リン酸化</td></tr>
+    </table>
+    <ul style="margin-top:8px">
+      <li><b>洞房結節</b>：自動能・緩徐脱分極・Ca²⁺立ち上がり＝ペースメーカー ／ <b>心室筋</b>：Na⁺急峻+Ca²⁺プラトー＝収縮ポンプ</li>
+      <li><b>血管壁</b>：内膜・中膜・外膜。動脈の弾性＝拍動を平滑化(ウィンドケッセル効果)</li>
+      <li><b>副腎</b>：糖質(束状層,コルチゾール,血糖↑/免疫抑制) / 鉱質(球状層,アルドステロン,尿細管でNa⁺再吸収↑)</li>
+    </ul>
+  </div>
+  <div class="cheat-card">
+    <h3>🩸 血液・呼吸・骨（問4・大川先生）</h3>
+    <ul>
+      <li><b>P₅₀増加(右方移動)</b>：CO₂↑・pH↓(H⁺↑,ボーア)・温度↑・2,3-BPG↑</li>
+      <li><b>免疫細胞</b>：キラーT(感染細胞破壊) / マクロファージ(単球由来,貪食+抗原提示) / 血小板(巨核球,止血) / 好中球(顆粒球,貪食)</li>
+      <li><b>肺胞換気量</b>=(1回換気量−死腔)×呼吸数＝(450−150)×15=<b>4500mL/分</b></li>
+      <li><b>骨</b>：アパタイト(骨塩99%)、ALP(骨芽細胞分泌)、Ca沈着、PTH+活性型VitDが破骨細胞分化促進、VitD活性化=肝→腎で水酸化</li>
+    </ul>
+  </div>
+`;
+
+render();
+</script>
+</body>
+</html>
