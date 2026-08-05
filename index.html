@@ -3,26 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>動物生理学I 期末2時間ブースト</title>
+<title>動物生理学I 期末2時間ブースト（統合版）</title>
 <style>
   :root{
-    --bg:#0d1117;          /* 深い生体の暗赤紺 */
-    --bg-2:#141b26;
-    --panel:#1a2230;
-    --ink:#eef2f8;
-    --ink-dim:#93a1b5;
-    --line:#2d3a4d;
-    --nerve:#38bdf8;       /* 神経＝電気の水色 */
-    --nerve-l:rgba(56,189,248,.14);
-    --endo:#f472b6;        /* 内分泌＝ピンク */
-    --endo-l:rgba(244,114,182,.14);
-    --muscle:#fb7185;      /* 筋・循環＝赤 */
-    --muscle-l:rgba(251,113,133,.14);
-    --blood:#c084fc;       /* 血液・呼吸・骨＝紫 */
-    --blood-l:rgba(192,132,252,.14);
+    --bg:#0d1117; --bg-2:#141b26; --panel:#1a2230;
+    --ink:#eef2f8; --ink-dim:#93a1b5; --line:#2d3a4d;
+    --nerve:#38bdf8; --nerve-l:rgba(56,189,248,.14);
+    --endo:#f472b6; --endo-l:rgba(244,114,182,.14);
+    --muscle:#fb7185; --muscle-l:rgba(251,113,133,.14);
+    --blood:#c084fc; --blood-l:rgba(192,132,252,.14);
     --ok:#34d399; --ok-l:rgba(52,211,153,.13);
     --warn:#fbbf24; --warn-l:rgba(251,191,36,.13);
-    --acc:#38bdf8;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
@@ -30,13 +21,11 @@
   .mono,code{font-family:"SFMono-Regular",Menlo,Consolas,monospace}
   .wrap{max-width:840px;margin:0 auto;padding:0 18px}
   sub,sup{font-size:.72em}
-
   header{background:linear-gradient(135deg,#131a26,#1c1420);border-bottom:1px solid var(--line);padding:24px 0 18px;position:relative;overflow:hidden}
   header::after{content:"";position:absolute;right:-30px;top:-30px;width:200px;height:200px;background:radial-gradient(circle,rgba(56,189,248,.16),transparent 70%)}
   .kicker{font-size:11px;letter-spacing:.26em;font-weight:700;color:var(--nerve);text-transform:uppercase}
   h1{font-size:22px;font-weight:800;margin-top:6px}
   h1 small{display:block;font-size:12px;font-weight:400;color:var(--ink-dim);margin-top:5px}
-
   .prog{background:var(--bg-2);border-bottom:1px solid var(--line);padding:11px 0}
   .prog .wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
   .bar{flex:1;min-width:130px;height:8px;background:#0a0e14;border-radius:5px;overflow:hidden}
@@ -45,19 +34,16 @@
   .timer{font-family:monospace;background:#0a0e14;border:1px solid var(--line);padding:4px 10px;border-radius:6px;font-size:14px;color:var(--nerve)}
   .timer.warn{color:var(--warn)}
   .tbtn{font:inherit;font-size:12px;font-weight:700;cursor:pointer;background:var(--nerve);border:none;color:#062430;padding:5px 12px;border-radius:6px}
-
   nav.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:16px 0 2px}
   nav.tabs button{font:inherit;font-size:13px;font-weight:700;cursor:pointer;background:var(--panel);border:1px solid var(--line);color:var(--ink-dim);padding:8px 13px;border-radius:9px}
   nav.tabs button.active{background:var(--nerve);color:#062430;border-color:var(--nerve)}
   section.view{display:none;padding-top:14px} section.view.active{display:block}
-
   .hint{font-size:12.5px;color:var(--ink-dim);margin-bottom:12px} .hint b{color:var(--ink)}
   .filterbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
   .filterbar button{font:inherit;font-size:12px;font-weight:700;cursor:pointer;background:var(--panel);border:1px solid var(--line);color:var(--ink-dim);padding:5px 11px;border-radius:15px}
   .filterbar button.on{background:var(--endo);border-color:var(--endo);color:#3a0a24}
-
   .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px}
-  .qnum{font-family:monospace;color:var(--ink-dim);font-size:11px;float:right}
+  .qnum{font-family:monospace;color:var(--ink-dim);font-size:11px;float:right;text-align:right;max-width:45%}
   .tag{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.03em;padding:3px 9px;border-radius:6px;margin:0 6px 4px 0}
   .t-nerve{background:var(--nerve-l);color:#7dd3fc}
   .t-endo{background:var(--endo-l);color:#f9a8d4}
@@ -66,13 +52,11 @@
   .t-freq{background:#f4a72c;color:#3a2600}
   .t-calc{background:rgba(255,255,255,.09);color:#e9edf5;border:1px solid var(--line)}
   .t-fill{background:rgba(52,211,153,.13);color:#6ee7b7}
-
   .q-title{font-size:16.5px;font-weight:800;margin:8px 0 4px;line-height:1.4}
   .learn{background:var(--nerve-l);border-left:3px solid var(--nerve);padding:12px 14px;border-radius:0 8px 8px 0;margin:12px 0}
   .learn .lbl{font-size:10.5px;font-weight:800;letter-spacing:.14em;color:var(--nerve);margin-bottom:5px}
   .learn ul{margin:6px 0 0 18px;font-size:14px} .learn li{margin:3px 0}
   .key{background:var(--endo-l);color:#f9a8d4;border-radius:4px;padding:0 4px;font-weight:700}
-
   .ask{font-size:15px;margin:8px 0 10px;font-weight:600} .ask b{color:var(--warn)}
   .answer-in{width:100%;font:inherit;font-size:14.5px;padding:10px 12px;background:#0d1420;border:1px solid var(--line);border-radius:8px;color:var(--ink);resize:vertical}
   .answer-in:focus{outline:none;border-color:var(--nerve)}
@@ -81,14 +65,13 @@
   .opt:hover{border-color:var(--nerve)}
   .opt.correct{background:var(--ok-l);border-color:var(--ok)}
   .opt.wrong{background:rgba(248,113,113,.14);border-color:#f87171}
-
+  .opt.pick{border-color:var(--endo)}
   .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px;align-items:center}
   button.act{font:inherit;font-weight:700;cursor:pointer;border:none;padding:9px 16px;border-radius:8px;font-size:14px}
   .btn-show{background:var(--nerve);color:#062430}
   .btn-ghost{background:transparent;border:1px solid var(--line);color:var(--ink-dim)}
   .btn-ok{background:var(--ok);color:#04211a}
   .btn-again{background:var(--warn);color:#3a2c00}
-
   .reveal{display:none;margin-top:12px;border-top:1px dashed var(--line);padding-top:13px}
   .reveal.on{display:block;animation:fade .25s}
   @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
@@ -104,7 +87,6 @@
   details.deep{margin-top:10px}
   details.deep summary{cursor:pointer;font-weight:700;color:var(--nerve);font-size:13px}
   details.deep .db{margin-top:7px;font-size:13.5px;color:var(--ink-dim);padding-left:2px}
-
   .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
   .stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center}
   .stat .n{font-family:monospace;font-size:30px;font-weight:800}
@@ -115,7 +97,6 @@
   .plan .t{font-family:monospace;color:var(--warn);font-weight:700}
   .topic-row{display:flex;justify-content:space-between;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:9px 13px;margin-bottom:7px;font-size:13.5px}
   .topic-row .c{font-family:monospace;color:var(--ink-dim)}
-
   .cheat-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:14px}
   .cheat-card h3{font-size:15px;margin-bottom:8px}
   .cheat-card ul{margin-left:18px;font-size:14px} .cheat-card li{margin:5px 0}
@@ -123,15 +104,16 @@
   .cheat-card th,.cheat-card td{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
   .cheat-card th{background:var(--bg-2)}
   .empty{text-align:center;color:var(--ink-dim);padding:40px 0;font-size:14px}
+  .freqbadge{display:inline-block;font-size:10px;font-weight:800;background:#f4a72c;color:#3a2600;padding:2px 7px;border-radius:5px;margin-left:6px}
   footer{text-align:center;color:var(--ink-dim);font-size:11px;margin-top:30px;opacity:.75}
 </style>
 </head>
 <body>
 <header>
   <div class="wrap">
-    <span class="kicker">Animal Physiology I · Final · 60min</span>
+    <span class="kicker">Animal Physiology I · Final · 統合版</span>
     <h1>動物生理学I 期末2時間ブースト
-      <small>令和4年度(2022)過去問ベース ｜ 神経・内分泌・筋循環・血液呼吸骨 ｜ 論述と穴埋めを反復で固める</small>
+      <small>2022〜2025過去問を網羅 ｜ 4年分の頻出パターン ｜ 論述・穴埋め・計算を反復で固める</small>
     </h1>
   </div>
 </header>
@@ -156,12 +138,13 @@
     <div class="filterbar" id="filterbar">
       <button data-f="all" class="on">すべて</button>
       <button data-f="review">要復習</button>
-      <button data-f="nerve">神経(問1)</button>
-      <button data-f="endo">内分泌(問2)</button>
-      <button data-f="muscle">筋・循環(問3)</button>
-      <button data-f="blood">血液呼吸骨(問4)</button>
+      <button data-f="freq">頻出★のみ</button>
+      <button data-f="nerve">神経</button>
+      <button data-f="endo">内分泌</button>
+      <button data-f="muscle">筋・循環</button>
+      <button data-f="blood">血液呼吸骨</button>
     </div>
-    <div class="hint">使い方：<b>📥INPUT</b>で要点を頭に入れる → <b>📤OUTPUT</b>で自分の言葉で答える／穴を埋める → 模範解答と照合し<b>「書けた／もう一度」</b>で自己採点。「もう一度」は要復習に回り繰り返し出題。<br>論述は<b>キーワードを口に出して言えるか</b>を採点基準にすると効率的です。</div>
+    <div class="hint">使い方：<b>📥INPUT</b>で要点を頭に入れる → <b>📤OUTPUT</b>で自分の言葉で答える／穴を埋める → 模範解答と照合し<b>「書けた／もう一度」</b>で自己採点。「もう一度」は要復習に回り繰り返し出題。<br>右上の<span class="freqbadge">★複数年</span>は4年間で繰り返し出た最重要テーマです。ここを最優先で固めてください。</div>
     <div id="cards"></div>
     <div class="empty" id="emptyMsg" style="display:none">この条件のカードはありません。</div>
   </section>
@@ -176,12 +159,13 @@
     <div class="plan">
       <h3>⏱ 2時間の攻め方</h3>
       <ol>
-        <li><span class="t">0:00–0:20</span> チートシート③を通読。4分野の骨組みを頭に入れる。</li>
-        <li><span class="t">0:20–1:10</span> ドリル①を1周。論述は要点(キーワード)を言えればOK。</li>
-        <li><span class="t">1:10–1:35</span> 「要復習」で詰まった論述・穴埋めだけ2周目。</li>
-        <li><span class="t">1:35–2:00</span> 副腎・骨リモデリングの<b>穴埋めを紙で再現</b>＋肺胞換気量の計算を通しで。</li>
+        <li><span class="t">0:00–0:15</span> チートシート③を通読。4分野の骨組みを俯瞰。</li>
+        <li><span class="t">0:15–0:40</span> フィルタ「頻出★のみ」を集中攻略。毎年出る核を最初に固める。</li>
+        <li><span class="t">0:40–1:25</span> 残り全カードを1周（論述は要点を言えればOK）。</li>
+        <li><span class="t">1:25–1:50</span> 「要復習」で詰まった論述・穴埋めだけ2周目。</li>
+        <li><span class="t">1:50–2:00</span> 穴埋め（副腎/骨/CO₂/Ca/インスリン）と計算（肺胞換気量・スターリング）を紙で再現。</li>
       </ol>
-      <p class="hint" style="margin-top:10px">4人の先生が各1問。<b>穴埋め2問（副腎ホルモン・骨リモデリング）は語句を正確に</b>覚えれば確実に点になります。論述は「比較して違いを述べる」型が多いので、対比のキーワードを押さえるのがコツ。</p>
+      <p class="hint" style="margin-top:10px">4年分を見ると<b>毎年出る核</b>がはっきりしています：①骨格筋の興奮収縮連関 ②洞房結節vs心室筋 ③血管壁と動脈弾性 ④闘争か逃避/抵抗反応のホルモン ⑤肺胞換気量の計算 ⑥スターリング力 ⑦骨代謝・Ca調節の穴埋め ⑧ヘモグロビンP₅₀。ここを外さなければ合格圏です。</p>
     </div>
     <div id="topicList" style="margin-top:16px"></div>
     <div class="row" style="margin-top:16px"><button class="act btn-ghost" id="resetBtn">進捗をリセット</button></div>
@@ -190,185 +174,378 @@
   <section class="view" id="cheat"></section>
 </div>
 
-<footer>©Genkidus ｜ 令和4年度 動物生理学I 過去問ベース ｜ 進捗はこのセッションのみ</footer>
+<footer>©Genkidus ｜ 動物生理学I 2022〜2025過去問統合 ｜ 進捗はこのセッションのみ</footer>
 
 <script>
 const CARDS=[
-/* ================= 問1 神経（金先生） ================= */
-{id:'n-ap',type:'nerve',freq:true,tag:['神経','活動電位','比較'],src:'問1(1)',
+/* ===================== 神経 ===================== */
+{id:'n-ap-local',type:'nerve',freq:true,tag:['神経','活動電位','比較'],src:'2022問1(1)',
  title:'活動電位が局所応答と異なる点',
- learn:['活動電位：<span class="key">閾値を超えると発生</span>し<span class="key">全か無かの法則</span>に従う／大きさ一定／<span class="key">減衰せず伝導</span>／<span class="key">不応期あり</span>。',
-        '局所応答（電気緊張性電位）：<span class="key">閾値以下でも生じ、刺激強度に比例（段階的）</span>／<span class="key">距離とともに減衰</span>／加重できる／不応期なし。'],
- mode:'text',
- ask:'活動電位が局所応答と異なる点を述べよ。',
- ansHTML:'活動電位は①<b>閾値を超えたときのみ発生し「全か無かの法則」</b>に従う（刺激を強めても大きさは一定）、②<b>減衰せずに一定の大きさで伝導</b>する、③<b>不応期がある</b>ため加重・逆行しない。<br>一方、局所応答は<b>閾値以下でも生じ刺激強度に応じて段階的に変化</b>し、<b>距離とともに減衰</b>し、加重可能で不応期がない。',
- final:'全か無か・非減衰伝導・不応期あり',
- deep:'活動電位はNa⁺チャネルの再生的開口による。局所応答はそこに至らない受動的な膜電位変化。'},
+ learn:['活動電位：<span class="key">閾値超で発生・全か無か</span>／大きさ一定／<span class="key">非減衰伝導</span>／<span class="key">不応期あり</span>。',
+        '局所応答：閾値以下でも生じ<span class="key">刺激強度に比例（段階的）</span>／<span class="key">減衰</span>／加重可／不応期なし。'],
+ mode:'text', ask:'活動電位が局所応答と異なる点を述べよ。',
+ ansHTML:'活動電位は①<b>閾値を超えたときのみ発生し「全か無か」</b>（大きさ一定）、②<b>減衰せず一定の大きさで伝導</b>、③<b>不応期がある</b>。局所応答は<b>閾値以下でも生じ刺激強度に応じて段階的</b>で<b>距離とともに減衰</b>し加重可・不応期なし。',
+ final:'全か無か・非減衰伝導・不応期あり'},
 
-{id:'n-transmission',type:'nerve',freq:true,tag:['神経','シナプス伝達','比較'],src:'問1(2)',
+{id:'n-ap-ion',type:'nerve',freq:true,tag:['神経','活動電位','機構'],src:'2024問2(1)',
+ title:'活動電位の発生をイオンコンダクタンスで説明',
+ learn:['脱分極で<span class="key">電位依存性Na⁺チャネル</span>が開き<span class="key">Naコンダクタンス急増</span>→Na⁺流入で急速脱分極（立ち上がり）。',
+        '少し遅れて<span class="key">Na⁺チャネル不活性化＋電位依存性K⁺チャネル開口</span>→Kコンダクタンス増でK⁺流出→再分極。',
+        'K⁺流出が続き一時的に<span class="key">過分極</span>→静止電位へ。'],
+ mode:'text', ask:'活動電位が発生する仕組みをイオンのコンダクタンスの観点から説明せよ。',
+ ansHTML:'閾値まで脱分極すると<b>電位依存性Na⁺チャネルが開いてNa⁺コンダクタンスが急増</b>し、Na⁺が細胞内へ流入して膜電位が急上昇する（脱分極相）。ピーク付近で<b>Na⁺チャネルが不活性化</b>し、遅れて<b>電位依存性K⁺チャネルが開いてK⁺コンダクタンスが増大</b>、K⁺が流出して<b>再分極</b>する。K⁺透過性がしばらく高いままなので一過性の<b>過分極（後過分極）</b>を経て静止電位に戻る。',
+ final:'Naコンダクタンス↑で脱分極→Kコンダクタンス↑で再分極',
+ deep:'2025のEPSP→活動電位の設問も同じ。EPSPが加重して閾値に達すると軸索起始部でこのNa⁺チャネル開口が起こる。'},
+
+{id:'n-epsp',type:'nerve',freq:false,tag:['神経','EPSP'],src:'2025問1(1)',
+ title:'EPSPが活動電位を発生させる仕組み',
+ learn:['興奮性シナプスで伝達物質が受容体に結合→局所的な脱分極（<span class="key">EPSP</span>）。',
+        'EPSPは<span class="key">時間的・空間的に加重</span>し、<span class="key">軸索起始部（軸索小丘）</span>で閾値に達すると活動電位が発生。'],
+ mode:'text', ask:'興奮性シナプス後電位(EPSP)が活動電位を発生させる仕組みを説明せよ。',
+ ansHTML:'興奮性シナプスでの伝達により局所的な脱分極（EPSP）が生じる。単一のEPSPは小さいが、複数のEPSPが<b>時間的加重・空間的加重</b>によって足し合わされ、<b>軸索起始部（軸索小丘）の膜電位が閾値に達する</b>と電位依存性Na⁺チャネルが開いて活動電位が発生する。',
+ final:'EPSPの加重→軸索起始部で閾値到達→発火'},
+
+{id:'n-transmission',type:'nerve',freq:false,tag:['神経','シナプス伝達','比較'],src:'2022問1(2)',
  title:'通常型伝達と調節性伝達の特徴',
- learn:['通常型（速い）：<span class="key">イオンチャネル型受容体</span>に直接作用→<span class="key">速い・短時間</span>のシナプス後電位（例:グルタミン酸,GABA）。',
-        '調節性（遅い）：<span class="key">代謝型(Gタンパク質共役)受容体</span>を介し<span class="key">セカンドメッセンジャー</span>で作用→<span class="key">遅く・持続的</span>、興奮性を修飾（例:モノアミン,神経ペプチド）。'],
- mode:'text',
- ask:'通常型伝達と調節性伝達の特徴を説明せよ。',
- ansHTML:'<b>通常型伝達</b>：伝達物質が<b>イオンチャネル型（イオンチャネル内蔵）受容体</b>に結合し、直接チャネルを開くため<b>反応が速く短時間</b>で終わる。素早い興奮/抑制の伝達を担う。<br><b>調節性伝達</b>：<b>代謝型（Gタンパク質共役）受容体</b>を介し、<b>セカンドメッセンジャー系</b>を活性化して作用するため<b>反応が遅く持続的</b>。ニューロンの興奮性そのものを修飾する。',
- final:'通常型=チャネル型/速い, 調節性=代謝型/遅い持続',
- deep:''},
+ learn:['通常型：<span class="key">イオンチャネル型受容体</span>に直接作用→<span class="key">速い・短時間</span>。',
+        '調節性：<span class="key">代謝型(G蛋白共役)受容体→セカンドメッセンジャー</span>→<span class="key">遅く持続的</span>、興奮性を修飾。'],
+ mode:'text', ask:'通常型伝達と調節性伝達の特徴を説明せよ。',
+ ansHTML:'<b>通常型伝達</b>：伝達物質が<b>イオンチャネル型受容体</b>に結合し直接チャネルを開く→<b>速く短時間</b>。<b>調節性伝達</b>：<b>代謝型（Gタンパク質共役）受容体</b>を介し<b>セカンドメッセンジャー</b>で作用→<b>遅く持続的</b>、ニューロンの興奮性を修飾。',
+ final:'通常型=チャネル型/速い, 調節性=代謝型/遅く持続'},
 
-{id:'n-glia',type:'nerve',freq:true,tag:['神経','グリア細胞'],src:'問1(3)',
+{id:'n-glia',type:'nerve',freq:false,tag:['神経','グリア細胞'],src:'2022問1(3)',
  title:'グリア細胞について',
- learn:['神経系の<span class="key">支持細胞</span>。ニューロンより多数。活動電位は出さない。',
-        '中枢：<span class="key">アストロサイト</span>(支持・栄養・血液脳関門・K⁺緩衝)、<span class="key">オリゴデンドロサイト</span>(髄鞘形成)、<span class="key">ミクログリア</span>(免疫・貪食)。',
-        '末梢：<span class="key">シュワン細胞</span>(髄鞘形成)。'],
- mode:'text',
- ask:'グリア細胞について説明せよ。',
- ansHTML:'グリア細胞はニューロンを<b>支持・保護・栄養</b>する細胞で、自ら活動電位は発生しない。<br>中枢では<b>アストロサイト</b>（栄養供給・血液脳関門の形成・細胞外K⁺やイオン環境の調節）、<b>オリゴデンドロサイト</b>（中枢の髄鞘＝ミエリン形成）、<b>ミクログリア</b>（免疫・貪食）があり、末梢では<b>シュワン細胞</b>が髄鞘を形成する。髄鞘は跳躍伝導を可能にする。',
- final:'支持細胞：アストロ/オリゴ/ミクロ/シュワン',
- deep:'髄鞘（ミエリン）による跳躍伝導＝ランビエ絞輪でのみ活動電位が飛ぶ→伝導速度up。'},
+ learn:['神経系の<span class="key">支持細胞</span>。中枢：<span class="key">アストロサイト</span>(栄養/血液脳関門/K⁺調節)、<span class="key">オリゴデンドロサイト</span>(中枢の髄鞘)、<span class="key">ミクログリア</span>(貪食)。末梢：<span class="key">シュワン細胞</span>(髄鞘)。'],
+ mode:'text', ask:'グリア細胞について説明せよ。',
+ ansHTML:'ニューロンを<b>支持・栄養・保護</b>し自らは活動電位を出さない細胞。<b>アストロサイト</b>（栄養供給・血液脳関門形成・K⁺やイオン環境調節）、<b>オリゴデンドロサイト</b>（中枢の髄鞘形成）、<b>ミクログリア</b>（免疫・貪食）、末梢の<b>シュワン細胞</b>（髄鞘形成）がある。髄鞘は跳躍伝導を可能にする。',
+ final:'アストロ/オリゴ/ミクロ/シュワン'},
 
-/* ================= 問2 内分泌（吉村先生） ================= */
-{id:'e-def',type:'endo',freq:true,tag:['内分泌','ホルモン定義'],src:'問2(1)',
+{id:'n-bbb',type:'nerve',freq:true,tag:['神経','血液脳関門'],src:'2024問1(1) / 2025問1(2)',
+ title:'脳脊髄液・血液脳関門の構造と機能',
+ learn:['血液脳関門(BBB)：脳毛細血管の<span class="key">内皮細胞が密着結合(タイトジャンクション)</span>で連結＋<span class="key">アストロサイトの足突起</span>が取り囲む。',
+        '機能：血液から脳への<span class="key">物質移行を厳しく制限</span>し、有害物質・病原体を排除して<span class="key">脳内環境を一定に保つ</span>。脂溶性やトランスポーター基質は通す。',
+        '脳脊髄液：脈絡叢で産生、脳室・くも膜下腔を循環し脳を<span class="key">保護・緩衝・老廃物除去</span>。'],
+ mode:'text', ask:'血液脳関門の構造と機能を説明せよ。',
+ ansHTML:'【構造】脳の毛細血管内皮細胞どうしが<b>密着結合（タイトジャンクション）</b>で強固に連結し、その周囲を<b>アストロサイトの足突起</b>が取り囲む。<br>【機能】血液と脳組織の間の<b>物質移行を選択的に厳しく制限</b>し、毒物・病原体・不要な物質の侵入を防いで<b>脳内の環境（イオン組成など）を一定に保つ</b>。脂溶性物質や特定のトランスポーターの基質（グルコース等）は通過できる。',
+ final:'内皮の密着結合＋アストロ足突起で物質を選択制限',
+ deep:'脳脊髄液は脈絡叢で作られ、脳を物理的に保護・緩衝し老廃物を運び出す。'},
+
+{id:'n-rod-cone',type:'nerve',freq:false,tag:['神経','感覚','比較'],src:'2023問1(1)',
+ title:'桿体細胞と錐体細胞の共通点・相違点',
+ learn:['共通：どちらも<span class="key">視細胞</span>で、光を受けて<span class="key">過分極</span>し信号を伝える／視物質(オプシン+レチナール)をもつ。',
+        '桿体：<span class="key">感度が高く暗所（薄明）視</span>・色の識別なし・網膜周辺に多い。',
+        '錐体：<span class="key">明所視・色覚（3種）</span>・感度は低いが解像度高い・中心窩に多い。'],
+ mode:'text', ask:'桿体細胞と錐体細胞の共通点・相違点を挙げて説明せよ。',
+ ansHTML:'【共通点】ともに網膜の<b>視細胞</b>で、視物質（オプシン＋レチナール）をもち、光を受容すると<b>過分極</b>して信号を出す。<br>【相違点】<b>桿体</b>は光感度が高く<b>暗所（薄明）視</b>を担うが色を識別できず、網膜周辺に多い。<b>錐体</b>は感度は低いが<b>明所視と色覚</b>（3種類の錐体で三原色）を担い、解像度が高く中心窩に集中する。',
+ final:'桿体=暗所/色なし, 錐体=明所/色覚, 共に視細胞で過分極'},
+
+{id:'n-rod-energy',type:'nerve',freq:false,tag:['神経','視細胞','光変換'],src:'2024問1(2)',
+ title:'桿体細胞におけるエネルギー変換過程',
+ learn:['暗所：<span class="key">cGMPが高くcGMP依存性Naチャネルが開く（暗電流）</span>→脱分極気味。',
+        '光→ロドプシン活性化→<span class="key">トランスデューシン→ホスホジエステラーゼ(PDE)活性化→cGMP分解</span>。',
+        'cGMP低下でNaチャネル閉→<span class="key">過分極</span>→伝達物質放出減少＝光を電気信号に変換。'],
+ mode:'text', ask:'桿体細胞におけるエネルギー（光→電気信号）変換過程を説明せよ。',
+ ansHTML:'暗所では<b>cGMP濃度が高く、cGMP依存性のNa⁺チャネルが開いて暗電流が流れ</b>やや脱分極している。光が当たると視物質<b>ロドプシンが活性化</b>し、<b>トランスデューシン（Gタンパク質）→ホスホジエステラーゼ（PDE）</b>を活性化して<b>cGMPを分解</b>する。cGMPが低下するとNa⁺チャネルが閉じて<b>細胞は過分極</b>し、シナプスでの伝達物質放出が減少する。こうして光刺激が電気的信号に変換される。',
+ final:'光→ロドプシン→PDE→cGMP分解→Naチャネル閉→過分極'},
+
+{id:'n-lateral',type:'nerve',freq:false,tag:['神経','側方抑制'],src:'2023問1(2)',
+ title:'神経の側方抑制（カブトガニ複眼）',
+ learn:['側方抑制＝<span class="key">強く興奮した細胞が隣接細胞の応答を抑える</span>仕組み。',
+        'カブトガニ複眼の個眼は隣同士を抑制しあう→<span class="key">明暗の境界（コントラスト）が強調</span>される（マッハバンド）。'],
+ mode:'text', ask:'神経の側方抑制を、カブトガニ複眼のニューロンを例に説明せよ。',
+ ansHTML:'側方抑制とは、<b>強く興奮した神経細胞が、隣接する細胞の応答を側方向に抑制する</b>仕組み。カブトガニの複眼では、強く光を受けた個眼のニューロンが<b>隣の個眼の応答を抑える</b>。その結果、明暗の<b>境界部でコントラストが強調</b>され、輪郭がはっきり知覚される（マッハバンド効果）。',
+ final:'隣接細胞を抑制→境界コントラストを強調'},
+
+{id:'n-coding',type:'nerve',freq:false,tag:['神経','符号化'],src:'2025問1(3)',
+ title:'感覚刺激の質がどう符号化されるか',
+ learn:['刺激の<span class="key">質（modality）</span>は<span class="key">どの種類の受容器・どの神経路が活動するか（標識線説）</span>で決まる。',
+        '刺激の<span class="key">強度</span>は<span class="key">発火頻度と活動する受容器の数</span>で符号化。'],
+ mode:'text', ask:'感覚刺激の質がどのように符号化されるか説明せよ。',
+ ansHTML:'感覚刺激の<b>質（modality：視覚・聴覚・触覚など）</b>は、<b>どの種類の感覚受容器が興奮し、どの神経経路を通って脳のどの領域に伝わるか</b>によって決まる（標識線説／特殊神経エネルギー説）。同じ神経が興奮すれば刺激の種類によらず同じ感覚が生じる。なお刺激の<b>強度は発火頻度と動員される受容器の数</b>で符号化される。',
+ final:'質＝どの受容器・経路が活動するか（標識線説）'},
+
+/* ===================== 内分泌 ===================== */
+{id:'e-def',type:'endo',freq:false,tag:['内分泌','定義'],src:'2022問2(1)',
  title:'ホルモンの一般的定義',
- learn:['<span class="key">内分泌腺（細胞）</span>から<span class="key">血液中に分泌</span>され、<span class="key">遠隔の標的器官</span>まで運ばれる。',
-        '<span class="key">微量</span>で作用し、標的細胞の<span class="key">特異的受容体</span>に結合して生理機能を調節する化学物質。'],
- mode:'text',
- ask:'ホルモンの一般的定義を説明せよ。',
- ansHTML:'ホルモンとは、<b>内分泌腺（内分泌細胞）から血液（体液）中に分泌され</b>、循環を介して<b>離れた標的器官・細胞へ運ばれ</b>、そこの<b>特異的な受容体に結合して微量で生理機能を調節する</b>化学伝達物質である。',
- final:'内分泌腺→血中→標的の特異受容体、微量で作用',
- deep:''},
+ learn:['<span class="key">内分泌腺から血中に分泌</span>され、<span class="key">遠隔の標的細胞の特異受容体</span>に結合し<span class="key">微量で</span>生理機能を調節する化学物質。'],
+ mode:'text', ask:'ホルモンの一般的定義を説明せよ。',
+ ansHTML:'ホルモンとは、<b>内分泌腺（内分泌細胞）から血液中に分泌され</b>、循環を介して<b>離れた標的器官・細胞へ運ばれ、その特異的受容体に結合して微量で生理機能を調節する</b>化学伝達物質である。',
+ final:'内分泌腺→血中→標的の特異受容体、微量で作用'},
 
-{id:'e-secretion',type:'endo',freq:true,tag:['内分泌','分泌様式'],src:'問2(2)',
+{id:'e-exo-endo',type:'endo',freq:true,tag:['内分泌','外分泌/内分泌','比較'],src:'2023問2(1) / 2025問2(1)',
+ title:'外分泌と内分泌の違い（＋神経系と内分泌系の違い）',
+ learn:['外分泌：<span class="key">導管を通して体外・管腔へ</span>分泌（汗・消化液など）。',
+        '内分泌：<span class="key">導管を持たず血中へ</span>分泌し全身の標的へ。',
+        '神経系vs内分泌系：神経は<span class="key">速く・局所的・短時間</span>、内分泌は<span class="key">遅く・全身性・持続的</span>。'],
+ mode:'text', ask:'外分泌と内分泌について（また神経系と内分泌系の違いを）説明せよ。',
+ ansHTML:'<b>外分泌</b>：分泌物を<b>導管を通じて体表や管腔（消化管など）へ放出</b>する（汗腺・消化腺など）。<b>内分泌</b>：<b>導管を持たず、分泌物（ホルモン）を血液中に直接分泌</b>し、全身の標的器官に作用させる。<br>【神経系 vs 内分泌系】神経系は電気・シナプスで<b>速く・局所的・短時間</b>に情報を伝えるのに対し、内分泌系はホルモンで<b>遅く・全身性・持続的</b>に作用する。',
+ final:'外分泌=導管あり体外へ / 内分泌=導管なし血中へ'},
+
+{id:'e-secretion',type:'endo',freq:false,tag:['内分泌','分泌様式'],src:'2022問2(2)',
  title:'ホルモンの分泌様式3つ',
- learn:['<span class="key">内分泌(endocrine)</span>：血流を介して遠隔の標的へ。',
-        '<span class="key">傍分泌(paracrine)</span>：分泌細胞の近傍の細胞へ拡散して作用。',
-        '<span class="key">自己分泌(autocrine)</span>：分泌した細胞自身に作用。'],
- mode:'text',
- ask:'ホルモンの分泌様式を3つ説明せよ。',
- ansHTML:'① <b>内分泌（endocrine）</b>：血液中に分泌され、循環を介して離れた標的器官に作用する。<br>② <b>傍分泌（paracrine）</b>：分泌細胞の<b>近隣の細胞</b>へ拡散して局所的に作用する。<br>③ <b>自己分泌（autocrine）</b>：分泌した<b>細胞自身</b>（または同種細胞）に作用する。',
- final:'内分泌・傍分泌・自己分泌',
- deep:'神経分泌（neurosecretion：神経細胞が血中にホルモン放出）を4つ目に挙げる流儀もある。'},
+ learn:['<span class="key">内分泌</span>(血流で遠隔)／<span class="key">傍分泌</span>(近隣細胞)／<span class="key">自己分泌</span>(自身)。'],
+ mode:'text', ask:'ホルモンの分泌様式を3つ説明せよ。',
+ ansHTML:'① <b>内分泌（endocrine）</b>：血液中に分泌され離れた標的へ。② <b>傍分泌（paracrine）</b>：近隣の細胞へ拡散して局所作用。③ <b>自己分泌（autocrine）</b>：分泌した細胞自身に作用。',
+ final:'内分泌・傍分泌・自己分泌'},
 
-{id:'e-receptor',type:'endo',freq:true,tag:['内分泌','受容体'],src:'問2(3)',
+{id:'e-chemclass',type:'endo',freq:true,tag:['内分泌','化学分類'],src:'2023問2(2)',
+ title:'ホルモンの化学的3分類と例',
+ learn:['①<span class="key">ペプチド/タンパク質ホルモン</span>（例:インスリン、成長ホルモン）。',
+        '②<span class="key">ステロイドホルモン</span>（例:コルチゾール、アルドステロン、性ホルモン）。',
+        '③<span class="key">アミン（アミノ酸誘導体）ホルモン</span>（例:アドレナリン、甲状腺ホルモン）。'],
+ mode:'text', ask:'ホルモンを化学的組成により3つに分類し、それぞれ該当するホルモンを1つずつ挙げよ。',
+ ansHTML:'① <b>ペプチド／タンパク質ホルモン</b>：例）インスリン（水溶性・膜受容体）。<br>② <b>ステロイドホルモン</b>：例）コルチゾール（脂溶性・核内受容体）。<br>③ <b>アミン（アミノ酸誘導体）ホルモン</b>：例）アドレナリン（または甲状腺ホルモン）。',
+ final:'ペプチド/ステロイド/アミン（例:インスリン/コルチゾール/アドレナリン）'},
+
+{id:'e-feedback',type:'endo',freq:true,tag:['内分泌','フィードバック'],src:'2023問2(3) / 2025問2(3)',
+ title:'ホルモンのフィードバック制御（正・負の代表例）',
+ learn:['<span class="key">負のフィードバック</span>：産物（末梢ホルモン）が上位（視床下部・下垂体）を<span class="key">抑制</span>し分泌を一定に保つ（大多数）。例:甲状腺ホルモン→TRH/TSH抑制、コルチゾール→CRH/ACTH抑制。',
+        '<span class="key">正のフィードバック</span>：産物が分泌をさらに<span class="key">促進</span>（一過性・爆発的）。例:排卵前のエストロゲン→LHサージ、オキシトシン（分娩）。'],
+ mode:'text', ask:'ホルモンのフィードバック制御を説明し、正・負の代表例を示せ。',
+ ansHTML:'【負のフィードバック（大多数）】末梢の標的ホルモンが増えると、上位の<b>視床下部・下垂体を抑制</b>して分泌を減らし、ホルモン濃度を一定に保つ。例：<b>甲状腺ホルモンがTRH/TSH分泌を抑制</b>、コルチゾールがCRH/ACTHを抑制。<br>【正のフィードバック（一過性）】産物が分泌を<b>さらに促進</b>して急激に高める。例：<b>排卵前のエストロゲン上昇によるLHサージ</b>、分娩時のオキシトシン。',
+ final:'負=末梢が上位を抑制(甲状腺H) / 正=促進(LHサージ,オキシトシン)'},
+
+{id:'e-bloodtransport',type:'endo',freq:true,tag:['内分泌','血中輸送/動態'],src:'2023問2(4) / 2025問2(2)',
+ title:'ホルモンの血中輸送・血中動態を制御する要因',
+ learn:['水溶性（ペプチド・アミン）は<span class="key">血漿に溶けて遊離型</span>で運ばれる。脂溶性（ステロイド・甲状腺）は<span class="key">結合タンパク質に結合</span>して運ばれ、<span class="key">遊離型のみ活性</span>。',
+        '血中濃度は<span class="key">分泌量・結合タンパク質量・代謝(肝)/排泄(腎)による分解速度・半減期</span>で決まる。'],
+ mode:'text', ask:'ホルモンの血中輸送（血中動態を制御する要因）について述べよ。',
+ ansHTML:'水溶性ホルモン（ペプチド・アミン）は<b>血漿にそのまま溶けて（遊離型で）</b>運ばれる。脂溶性ホルモン（ステロイド・甲状腺ホルモン）は<b>アルブミンや特異的結合タンパク質に結合して</b>運ばれ、<b>結合していない遊離型だけが標的細胞に作用</b>する。血中濃度（動態）は<b>分泌量、結合タンパク質の量、肝臓での代謝・腎臓での排泄による分解速度（半減期）</b>によって制御される。',
+ final:'遊離型が活性 / 分泌量・結合蛋白・代謝排泄で動態決定'},
+
+{id:'e-receptor3',type:'endo',freq:true,tag:['内分泌','受容体3種'],src:'2024問2(3)',
+ title:'ホルモン受容体の3種類とそれぞれの特徴',
+ learn:['①<span class="key">イオンチャネル型</span>：速い（一部神経伝達）。',
+        '②<span class="key">Gタンパク質共役型（膜）</span>：水溶性ホルモン、セカンドメッセンジャー(cAMP等)で作用。',
+        '③<span class="key">酵素連結型（膜, 例:チロシンキナーゼ）</span>：インスリン等。',
+        '④<span class="key">細胞内（核内）受容体</span>：脂溶性(ステロイド・甲状腺)、転写を直接調節。'],
+ mode:'text', ask:'ホルモン受容体の種類を3つ挙げ、それぞれの特徴を説明せよ。',
+ ansHTML:'① <b>Gタンパク質共役型受容体（細胞膜）</b>：水溶性ホルモンが結合し、Gタンパク質を介して<b>セカンドメッセンジャー（cAMP等）</b>を生じて作用。反応は比較的速い。<br>② <b>酵素連結型受容体（細胞膜、例：受容体型チロシンキナーゼ）</b>：インスリンなどが結合し、受容体自身の酵素活性で細胞内シグナルを起こす。<br>③ <b>細胞内（核内）受容体</b>：脂溶性のステロイド・甲状腺ホルモンが細胞膜を通過して結合し、<b>遺伝子の転写を直接調節</b>する（作用は遅く持続的）。',
+ final:'G蛋白共役型 / 酵素連結型 / 核内受容体',
+ deep:'2022問2(3)の「細胞質性受容体で核内転写誘発」＝甲状腺ホルモン（脂溶性）が該当。'},
+
+{id:'e-receptor-mcq',type:'endo',freq:true,tag:['内分泌','受容体'],src:'2022問2(3)',
  title:'細胞質性受容体に結合し核内で転写を誘発するホルモン',
- learn:['<span class="key">脂溶性ホルモン（ステロイド・甲状腺ホルモン）</span>は細胞膜を通過し<span class="key">細胞質/核内の受容体</span>に結合→<span class="key">転写調節</span>。',
-        '水溶性（インスリン・成長ホルモン・アドレナリン）は<span class="key">細胞膜表面の受容体</span>に結合。'],
- mode:'mcq',
- ask:'細胞質性受容体に結合し核内で転写変化を誘発する可能性が最も高いのはどれか。',
+ learn:['脂溶性ホルモン（ステロイド・甲状腺ホルモン）＝<span class="key">細胞内/核内受容体→転写調節</span>。水溶性は膜表面受容体。'],
+ mode:'mcq', ask:'細胞質性受容体に結合し核内で転写変化を誘発する可能性が最も高いのはどれか。',
  opts:['A インスリン','B 成長ホルモン','C アドレナリン','D 甲状腺ホルモン'],
  correct:3,
- ansHTML:'正解：<b>D 甲状腺ホルモン</b>。<br>甲状腺ホルモンは<b>脂溶性</b>で細胞膜を通過でき、細胞内（核内）受容体に結合して<b>遺伝子の転写を調節</b>する。A・B・Cは水溶性で細胞膜表面の受容体に結合する。',
- final:'D 甲状腺ホルモン（脂溶性→核内受容体）',
- deep:'ステロイドホルモンも同じく核内受容体型。脂溶性か水溶性かで受容体の場所が決まる。'},
+ ansHTML:'正解：<b>D 甲状腺ホルモン</b>。脂溶性で細胞膜を通過し核内受容体に結合して<b>遺伝子転写を調節</b>する。A・B・Cは水溶性で膜表面受容体。',
+ final:'D 甲状腺ホルモン'},
 
-{id:'e-thyroid',type:'endo',freq:false,tag:['内分泌','甲状腺'],src:'問2(4)',
+{id:'e-thyroid-form',type:'endo',freq:false,tag:['内分泌','甲状腺'],src:'2022問2(4)',
  title:'甲状腺ホルモンで生物学活性が高い形態',
- learn:['甲状腺ホルモンは血中で大部分が<span class="key">結合タンパク質に結合</span>して運ばれる（不活性の貯蔵形）。',
-        '実際に細胞に入り作用するのは<span class="key">遊離型（非結合）</span>。'],
- mode:'mcq',
- ask:'どの形態の甲状腺ホルモンが生物学活性が高いか。',
+ learn:['血中では大半が<span class="key">結合タンパク質に結合（貯蔵・運搬形＝不活性）</span>。作用するのは<span class="key">遊離型（非結合）</span>。'],
+ mode:'mcq', ask:'どの形態の甲状腺ホルモンが生物学活性が高いか。',
  opts:['A アルブミンと結合','B トランスサイレチンと結合','C サイログロブリンと結合','D 非結合（遊離型）'],
  correct:3,
- ansHTML:'正解：<b>D 非結合（遊離型）</b>。<br>血中の甲状腺ホルモンの大半は運搬タンパク質（アルブミン、トランスサイレチン、サイロキシン結合グロブリン等）に結合しているが、これらは貯蔵・運搬形で不活性。<b>タンパク質に結合していない遊離型（free T3/T4）だけが細胞内に入り作用</b>する。',
- final:'D 非結合（遊離型）',
- deep:'サイログロブリンは甲状腺内でのホルモン合成・貯蔵の足場タンパク質。'},
+ ansHTML:'正解：<b>D 非結合（遊離型）</b>。血中甲状腺ホルモンの大半は運搬タンパク質に結合しているが不活性で、<b>タンパク質に結合していない遊離型（free T3/T4）だけが細胞に入り作用</b>する。',
+ final:'D 非結合（遊離型）'},
 
-/* ================= 問3 筋・循環（阿部先生） ================= */
-{id:'m-ec',type:'muscle',freq:true,tag:['筋','興奮収縮連関','比較'],src:'問3(1)',
- title:'骨格筋と平滑筋の興奮収縮連関（Ca²⁺上昇→収縮開始）',
- learn:['骨格筋：Ca²⁺が<span class="key">トロポニンC</span>に結合→トロポミオシンが動き<span class="key">アクチンの結合部位が露出</span>→ミオシンが結合し収縮。',
-        '平滑筋：トロポニンがない。Ca²⁺が<span class="key">カルモジュリン</span>に結合→<span class="key">ミオシン軽鎖キナーゼ(MLCK)</span>活性化→<span class="key">ミオシン軽鎖をリン酸化</span>→ミオシンが活性化し収縮。'],
- mode:'text',
- ask:'骨格筋細胞・平滑筋細胞それぞれで、細胞内Ca²⁺上昇が筋収縮を開始させるまでの仕組みを説明せよ。',
- ansHTML:'<b>骨格筋</b>：興奮でCa²⁺が上昇すると、Ca²⁺が<b>トロポニンC</b>に結合する。するとトロポミオシンの位置がずれてアクチン上の<b>ミオシン結合部位が露出</b>し、ミオシン頭部が結合して滑り運動（収縮）が起こる。<br><b>平滑筋</b>：トロポニンを持たない。Ca²⁺は<b>カルモジュリン</b>と結合し、この複合体が<b>ミオシン軽鎖キナーゼ（MLCK）</b>を活性化する。MLCKが<b>ミオシン軽鎖をリン酸化</b>することでミオシンがアクチンと相互作用できるようになり収縮する。',
- final:'骨格筋=トロポニンC / 平滑筋=カルモジュリン→MLCK→軽鎖リン酸化',
- deep:'この「トロポニン系 vs カルモジュリン/MLCK系」の対比が典型的な論述の得点源。'},
+{id:'e-insulin',type:'endo',freq:true,tag:['内分泌','インスリン'],src:'2024問1(3) / 2025問2(4)穴埋め',
+ title:'インスリンの生理作用（＋穴埋めA〜G）',
+ learn:['血糖上昇時に膵臓<span class="key">ランゲルハンス(A)島のβ(B)細胞</span>から分泌。',
+        '主な作用組織：<span class="key">筋肉(C)・脂肪組織(D)・肝臓(E)</span>。',
+        '筋・脂肪に作用→余剰グルコースを<span class="key">グリコーゲン/中性脂肪(F)</span>として貯蔵。肝に作用→<span class="key">グリコーゲン(G)</span>として貯蔵。全体で<span class="key">血糖を低下</span>。'],
+ mode:'text', ask:'インスリンの生理作用を説明せよ。（穴埋め：A島 B細胞、作用組織C/D/E、貯蔵形F/G）',
+ ansHTML:'インスリンは血糖値が上昇すると膵臓の<b>A＝ランゲルハンス</b>島の<b>B＝β（B）</b>細胞から分泌される。主な作用組織は<b>C＝筋肉、D＝脂肪組織、E＝肝臓</b>。<br>筋肉・脂肪(C・D)に作用すると余剰グルコースの取り込みを促し<b>F＝グリコーゲン（脂肪組織では中性脂肪/トリグリセリド）</b>として貯蔵、肝臓(E)に作用すると<b>G＝グリコーゲン</b>として貯蔵する。これにより血糖値を低下させる。',
+ final:'A ランゲルハンス B β C筋 D脂肪 E肝 F グリコーゲン/中性脂肪 G グリコーゲン',
+ deep:'細胞のグルコース取り込みはGLUT4の膜移行による。血糖を下げる唯一のホルモンがインスリン。'},
 
-{id:'m-cardiac',type:'muscle',freq:true,tag:['循環','心筋','活動電位'],src:'問3(2)',
- title:'洞房結節と心室筋：活動電位と役割の違い',
- learn:['洞房結節（特殊心筋）：<span class="key">自動能（ペースメーカー）</span>。<span class="key">安定した静止電位を持たず緩やかに脱分極</span>、立ち上がりは<span class="key">Ca²⁺流入</span>による（プラトーなし）。',
-        '心室筋（固有心筋）：<span class="key">Na⁺による急速な立ち上がり＋Ca²⁺によるプラトー相</span>で活動電位が長い。実際の<span class="key">収縮（ポンプ作用）</span>を担う。'],
- mode:'text',
- ask:'洞房結節(特殊心筋)と心室筋(固有心筋)の活動電位波形の違いと、心臓の収縮で果たす役割の違いを説明せよ。',
- ansHTML:'<b>洞房結節（特殊心筋）</b>：安定した静止膜電位を持たず<b>自発的に緩徐脱分極</b>して閾値に達し発火する（自動能）。立ち上がりは主に<b>Ca²⁺流入</b>により緩やか。役割は<b>ペースメーカー</b>として拍動リズムを生み出し刺激伝導系へ伝えること。<br><b>心室筋（固有心筋）</b>：<b>Na⁺による急速な立ち上がり</b>の後、<b>Ca²⁺流入による長いプラトー相</b>を持つため活動電位が長く不応期も長い。役割は<b>実際に収縮して血液を送り出すポンプ</b>。',
- final:'洞房結節=自動能ペースメーカー / 心室筋=プラトーで収縮・ポンプ',
- deep:'プラトー相が長い→強縮を防ぎ、収縮と弛緩を規則正しく繰り返せる。'},
+/* ===================== 筋・循環 ===================== */
+{id:'m-ec-skeletal',type:'muscle',freq:true,tag:['筋','興奮収縮連関'],src:'2022問3(1)/2024問3(1)/2025問3(1)',
+ title:'骨格筋：運動神経の興奮→筋収縮開始まで',
+ learn:['運動神経終末で<span class="key">アセチルコリン(ACh)放出</span>→終板の<span class="key">nAChR</span>→終板電位→筋線維の活動電位。',
+        '活動電位が<span class="key">T管</span>を伝わり<span class="key">DHPR→リアノジン受容体(RyR)</span>を介して<span class="key">筋小胞体からCa²⁺放出</span>。',
+        'Ca²⁺が<span class="key">トロポニンC</span>に結合→トロポミオシンが動き<span class="key">アクチンの結合部位露出</span>→ミオシンが結合し滑走（収縮）。'],
+ mode:'text', ask:'運動神経の興奮が骨格筋の筋細胞に伝わって筋収縮が開始するまでのメカニズムを説明せよ。',
+ ansHTML:'運動神経終末から<b>アセチルコリン</b>が放出され、終板の<b>ニコチン性ACh受容体</b>に結合して終板電位を生じ、筋線維に<b>活動電位</b>が発生する。活動電位が<b>横行小管（T管）</b>を伝わり、<b>DHPR（電位センサー）を介してリアノジン受容体を開き、筋小胞体からCa²⁺が放出</b>される。Ca²⁺が<b>トロポニンC</b>に結合するとトロポミオシンが移動して<b>アクチン上のミオシン結合部位が露出</b>し、ミオシン頭部が結合してフィラメントが滑り込み収縮が始まる。',
+ final:'ACh→活動電位→T管→SRからCa²⁺→トロポニンC→滑走',
+ deep:'2022問3(1)は平滑筋との比較版。平滑筋はトロポニンがなくCa²⁺→カルモジュリン→MLCK→ミオシン軽鎖リン酸化で収縮。'},
 
-{id:'m-vessel',type:'muscle',freq:true,tag:['循環','血管壁'],src:'問3(3)',
- title:'血管壁の構造と動脈の弾性の意義',
- learn:['血管壁は3層：<span class="key">内膜（内皮）・中膜（平滑筋+弾性線維）・外膜</span>。毛細血管は内皮＋基底膜のみ。',
-        '動脈（特に大動脈）は<span class="key">弾性線維が多く弾性が強い</span>。',
-        '意義：収縮期に伸展して血液を蓄え、拡張期に<span class="key">弾性で押し戻す</span>→<span class="key">拍動性の血流をならして持続的な流れ（ウィンドケッセル効果）</span>にし、末梢へ安定供給。'],
- mode:'text',
- ask:'毛細血管以外の血管壁の構造を説明し、動脈の弾性が強いことの機能的意義を述べよ。',
- ansHTML:'血管壁は内側から<b>内膜（内皮細胞）・中膜（平滑筋と弾性線維）・外膜（結合組織）</b>の3層から成る（毛細血管は内皮＋基底膜のみ）。<br>動脈、特に大動脈は<b>弾性線維に富み弾性が強い</b>。心臓の収縮期には血管壁が伸展して血液の一部を蓄え、<b>拡張期には弾性で縮んで血液を末梢へ押し出す</b>。これにより心臓の拍動による断続的な拍出を<b>ならして連続的で安定した血流に変える（ウィンドケッセル効果）</b>とともに、血圧の急激な変動を緩和する。',
- final:'内膜・中膜・外膜 / 弾性で拍動を平滑化(ウィンドケッセル)',
- deep:''},
+{id:'m-ec-smooth',type:'muscle',freq:true,tag:['筋','平滑筋','比較'],src:'2022問3(1)',
+ title:'骨格筋と平滑筋の興奮収縮連関の違い',
+ learn:['骨格筋：Ca²⁺→<span class="key">トロポニンC</span>→結合部位露出。',
+        '平滑筋：トロポニンなし。Ca²⁺→<span class="key">カルモジュリン→MLCK活性化→ミオシン軽鎖をリン酸化</span>→収縮。'],
+ mode:'text', ask:'骨格筋細胞・平滑筋細胞それぞれで、Ca²⁺上昇が筋収縮を開始させる仕組みを説明せよ。',
+ ansHTML:'<b>骨格筋</b>：Ca²⁺が<b>トロポニンC</b>に結合→トロポミオシンがずれて<b>ミオシン結合部位が露出</b>→収縮。<br><b>平滑筋</b>：トロポニンを持たず、Ca²⁺が<b>カルモジュリン</b>と結合し<b>ミオシン軽鎖キナーゼ（MLCK）</b>を活性化、<b>ミオシン軽鎖をリン酸化</b>することでミオシンが活性化して収縮する。',
+ final:'骨格筋=トロポニンC / 平滑筋=カルモジュリン→MLCK→軽鎖リン酸化'},
 
-{id:'m-adrenal',type:'muscle',freq:true,tag:['内分泌','副腎','穴埋め'],src:'問3(4)',
+{id:'m-motorunit',type:'muscle',freq:false,tag:['筋','運動単位'],src:'2023問3(1)',
+ title:'運動単位とは',
+ learn:['<span class="key">1個の運動ニューロンとそれが支配する筋線維群</span>をまとめて運動単位という。',
+        '1つの運動ニューロンの興奮で、支配下の筋線維が<span class="key">同時に収縮</span>。細かい運動ほど1運動単位あたりの筋線維数が少ない。'],
+ mode:'text', ask:'骨格筋収縮における「運動単位」とは何か説明せよ。',
+ ansHTML:'運動単位とは、<b>1個の運動ニューロン（運動神経）と、それが軸索分枝で支配する複数の筋線維の集まり</b>を指す。1つの運動ニューロンが興奮すると、支配下の筋線維が<b>すべて同時に収縮</b>する。指などの<b>精密な運動を担う筋では1運動単位あたりの筋線維数が少なく</b>、大きな力を出す筋では多い。',
+ final:'1運動ニューロン＋支配筋線維群＝同時収縮の最小単位'},
+
+{id:'m-sa-node',type:'muscle',freq:true,tag:['循環','心筋','活動電位'],src:'2022問3(2)/2023問3(2)/2024問3(2)',
+ title:'洞房結節(特殊心筋)と心室筋(固有心筋)の活動電位・役割',
+ learn:['洞房結節：<span class="key">安定静止電位なし・緩徐脱分極（自動能）</span>、立ち上がりは<span class="key">Ca²⁺流入</span>＝<span class="key">ペースメーカー</span>。位置は<span class="key">右心房・上大静脈開口部付近</span>。',
+        '心室筋：<span class="key">Na⁺で急速立ち上がり＋Ca²⁺による長いプラトー相</span>→活動電位が長く不応期長い＝<span class="key">収縮ポンプ</span>。'],
+ mode:'text', ask:'洞房結節と心室筋の活動電位波形の違いと、心臓の収縮で果たす役割の違いを説明せよ。（位置の図示も）',
+ ansHTML:'<b>洞房結節（特殊心筋）</b>：安定した静止電位を持たず<b>自発的に緩徐脱分極</b>して閾値に達し発火する（自動能）。立ち上がりは主に<b>Ca²⁺流入</b>により緩やかでプラトーがない。位置は<b>右心房の上大静脈開口部付近</b>。役割は拍動リズムを生む<b>ペースメーカー</b>。<br><b>心室筋（固有心筋）</b>：<b>Na⁺による急峻な立ち上がり＋Ca²⁺流入による長いプラトー相</b>で活動電位が長く不応期も長い。役割は実際に収縮して血液を送る<b>ポンプ</b>。',
+ final:'洞房結節=自動能ペースメーカー(右心房) / 心室筋=プラトーで収縮'},
+
+{id:'m-vessel',type:'muscle',freq:true,tag:['循環','血管壁'],src:'2022問3(3)/2023問3(3)/2024問3(3)',
+ title:'血管壁の構造と動脈の弾性の意義（動脈・静脈）',
+ learn:['壁は3層：<span class="key">内膜(内皮)・中膜(平滑筋+弾性線維)・外膜</span>。',
+        '動脈は<span class="key">中膜が厚く弾性線維に富む</span>（高圧に耐え弾性大）。静脈は<span class="key">壁が薄く内腔が広い</span>、<span class="key">逆流防止の弁</span>あり。',
+        '動脈弾性の意義：収縮期に伸展し血液を蓄え、拡張期に弾性で押し戻し<span class="key">拍動をならして連続的な血流に（ウィンドケッセル効果）</span>。'],
+ mode:'text', ask:'動脈・静脈それぞれの血管壁の構造を説明し、動脈の弾性が強いことの機能的意義を述べよ。',
+ ansHTML:'血管壁は内側から<b>内膜（内皮）・中膜（平滑筋と弾性線維）・外膜</b>の3層。<b>動脈</b>は高い血圧に耐えるため<b>中膜が厚く弾性線維に富む</b>。<b>静脈</b>は<b>壁が薄く内腔が広く</b>、血液の逆流を防ぐ<b>弁</b>をもつ。<br>動脈（特に大動脈）は弾性が強く、収縮期に伸展して血液を蓄え、<b>拡張期に弾性で縮んで血液を末梢へ押し出す</b>。これにより拍動性の拍出を<b>ならして連続的な血流に変え（ウィンドケッセル効果）</b>、血圧変動を緩和する。',
+ final:'内膜/中膜/外膜, 動脈=弾性で拍動平滑化, 静脈=薄壁+弁'},
+
+{id:'m-mitral',type:'muscle',freq:true,tag:['循環','心周期'],src:'2022問3(2)類/2024問3(2)/2025問3(3)',
+ title:'僧帽弁が閉じている/開いている期間',
+ learn:['僧帽弁＝左房と左室の間の弁。<span class="key">心室内圧＞心房内圧</span>で閉じる。',
+        '<span class="key">閉じている</span>：②等容性収縮期・③駆出期・④等容性弛緩期（＝心室収縮〜弛緩の圧が高い間）。',
+        '<span class="key">開いている</span>：⑤心室充満期・①心房収縮期（＝血液が心房→心室へ流入する間）。'],
+ mode:'mcq', ask:'心周期の中で僧帽弁が閉じている期間を①〜⑤から過不足なく選べ。（①心房収縮期②等容性収縮期③駆出期④等容性弛緩期⑤心室充満期）',
+ opts:['② ③ ④','① ⑤','② ③','① ② ⑤'],
+ correct:0,
+ ansHTML:'正解：<b>② 等容性収縮期・③ 駆出期・④ 等容性弛緩期</b>。<br>僧帽弁は<b>心室内圧が心房内圧を上回ると閉じる</b>。心室が収縮を始める等容性収縮期から、駆出期、そして弛緩を始める等容性弛緩期までは心室圧が高く閉じている。逆に<b>①心房収縮期・⑤心室充満期は開いている</b>（血液が心房から心室へ流入）。',
+ final:'閉：②③④ / 開：①⑤',
+ deep:'2025では「開いている期間を選べ」＝①⑤。設問がどちらを聞いているかに注意。'},
+
+{id:'m-stress-fight',type:'muscle',freq:true,tag:['内分泌','ストレス反応'],src:'2023問3(4)/2024問3(4)',
+ title:'闘争か逃避反応に関わる神経伝達物質・ホルモンと作用',
+ learn:['<span class="key">交感神経</span>興奮＋副腎髄質から<span class="key">アドレナリン・ノルアドレナリン</span>放出。',
+        '作用：<span class="key">心拍数・血圧上昇、気管支拡張、血糖上昇、骨格筋・心臓へ血流増、瞳孔散大</span>＝闘争/逃避に備える。'],
+ mode:'text', ask:'ストレス反応における「闘争か逃避反応」に関わる神経伝達物質・ホルモンの名称と、それらによって生じる作用を説明せよ。',
+ ansHTML:'<b>交感神経の神経伝達物質ノルアドレナリン</b>と、<b>副腎髄質から分泌されるアドレナリン（およびノルアドレナリン）</b>が関わる。これらは<b>心拍数・心収縮力の増加、血圧上昇、気管支拡張、肝でのグリコーゲン分解による血糖上昇、骨格筋・心臓への血流増加、瞳孔散大</b>などを引き起こし、身体を素早く闘争または逃走に備えさせる。',
+ final:'アドレナリン/ノルアドレナリン→心拍血圧↑血糖↑気管支拡張'},
+
+{id:'m-stress-resist',type:'muscle',freq:true,tag:['内分泌','ストレス反応'],src:'2025問3(4)',
+ title:'抵抗反応に関わるホルモン（視床下部-下垂体-副腎皮質）',
+ learn:['「抵抗反応」＝持続的ストレスへの適応。<span class="key">視床下部CRH→下垂体ACTH→副腎皮質からコルチゾール(糖質コルチコイド)</span>の3段階(ヒント:3種類)。',
+        'コルチゾール作用：<span class="key">糖新生促進で血糖維持・タンパク質/脂肪分解・抗炎症/免疫抑制</span>＝長期ストレスに耐える。'],
+ mode:'text', ask:'ストレス反応における「抵抗反応」に関わるホルモンの名称（視床下部・下垂体・もう一つの場所から分泌される3種類）と作用を説明せよ。',
+ ansHTML:'視床下部から<b>CRH（副腎皮質刺激ホルモン放出ホルモン）</b>、下垂体前葉から<b>ACTH（副腎皮質刺激ホルモン）</b>、そして<b>副腎皮質から糖質コルチコイド（コルチゾール）</b>が分泌される（3種類）。コルチゾールは<b>糖新生を促進して血糖を維持</b>し、タンパク質・脂肪を分解してエネルギー源を供給、さらに<b>抗炎症・免疫抑制</b>作用を示すことで、持続するストレスに身体を適応（抵抗）させる。',
+ final:'CRH→ACTH→コルチゾール, 糖新生/血糖維持/抗炎症',
+ deep:'闘争か逃避（急性・アドレナリン）と抵抗反応（持続・コルチゾール）の対比が頻出。'},
+
+{id:'m-adrenal-fill',type:'muscle',freq:true,tag:['内分泌','副腎','穴埋め'],src:'2022問3(4)',
  title:'副腎ホルモン穴埋め（A〜F）',
- learn:['副腎皮質：束状層→<span class="key">糖質(A)コルチコイド</span>、球状層→<span class="key">鉱質(B)コルチコイド</span>。',
-        '糖質コルチコイド：タンパク質・脂肪を分解し<span class="key">血糖(C)を増加</span>、<span class="key">免疫/炎症(D)を抑制</span>。',
-        '鉱質コルチコイド：腎臓の<span class="key">尿細管(E)</span>で<span class="key">Na⁺(F)の再吸収</span>を増大。'],
- mode:'text',
- ask:'A〜Fを答えよ：束状層＝[A]コルチコイド、球状層＝[B]コルチコイド。[A]はタンパク質/中性脂肪分解で[C]を増加させ[D]の働きを抑制。[B]は腎臓の[E]で[F]の再吸収を増大。',
- ansHTML:'<b>A＝糖質（グルコ）</b>コルチコイド、<b>B＝鉱質（ミネラル）</b>コルチコイド<br><b>C＝血糖（血中グルコース）</b>、<b>D＝免疫・炎症反応</b>（の働きを抑制）<br><b>E＝（腎）尿細管</b>、<b>F＝ナトリウム（Na⁺）</b>',
+ learn:['束状層→<span class="key">糖質(A)コルチコイド</span>、球状層→<span class="key">鉱質(B)コルチコイド</span>。',
+        '糖質：分解促進で<span class="key">血糖(C)増加</span>・<span class="key">免疫/炎症(D)抑制</span>。鉱質：腎の<span class="key">尿細管(E)</span>で<span class="key">Na⁺(F)再吸収</span>増大。'],
+ mode:'text', ask:'A〜F：束状層[A]コルチコイド/球状層[B]コルチコイド。[A]は[C]を増加させ[D]を抑制。[B]は腎の[E]で[F]の再吸収を増大。',
+ ansHTML:'<b>A＝糖質（グルコ）</b>コルチコイド、<b>B＝鉱質（ミネラル）</b>コルチコイド、<b>C＝血糖</b>、<b>D＝免疫・炎症反応</b>、<b>E＝（腎）尿細管</b>、<b>F＝ナトリウム（Na⁺）</b>。',
  final:'A糖質 B鉱質 C血糖 D免疫/炎症 E尿細管 FNa⁺',
- deep:'糖質コルチコイド=コルチゾール（束状層）、鉱質コルチコイド=アルドステロン（球状層）。網状層はアンドロゲン。'},
+ deep:'糖質コルチコイド=コルチゾール(束状層)、鉱質コルチコイド=アルドステロン(球状層)、網状層=アンドロゲン。'},
 
-/* ================= 問4 血液・呼吸・骨（大川先生） ================= */
-{id:'b-p50',type:'blood',freq:true,tag:['呼吸','酸素解離曲線'],src:'問4(1)',
- title:'ヘモグロビン酸素解離曲線のP₅₀を増加させる要因3つ',
- learn:['P₅₀増加＝曲線が<span class="key">右方移動</span>＝Hbの酸素親和性低下（末梢で酸素を離しやすい）。',
-        '右方移動の要因：<span class="key">CO₂分圧上昇・H⁺増加（pH低下＝ボーア効果）・温度上昇・2,3-BPG(DPG)増加</span>。'],
- mode:'text',
- ask:'ヘモグロビンの酸素解離曲線のP₅₀を増加させる要因を3つあげよ。',
- ansHTML:'P₅₀の増加は曲線の<b>右方移動</b>（酸素親和性の低下）を意味する。要因は次のうち3つ：<br>① <b>CO₂分圧の上昇</b><br>② <b>pHの低下（H⁺濃度の増加）＝ボーア効果</b><br>③ <b>温度の上昇</b><br>④ <b>2,3-ビスホスホグリセリン酸（2,3-BPG/DPG）の増加</b>',
- final:'CO₂↑・pH↓(H⁺↑)・温度↑・2,3-BPG↑ から3つ',
- deep:'活動中の組織はCO₂↑・H⁺↑・温度↑になり右方移動→酸素を効率よく放出する合目的な仕組み。'},
-
-{id:'b-immune',type:'blood',freq:true,tag:['血液','免疫細胞'],src:'問4(2)',
- title:'免疫系の細胞を特徴から同定',
- learn:['MHC上の抗原を認識し感染細胞を破壊＝<span class="key">キラーT細胞（細胞傷害性T細胞/CD8）</span>。',
-        '単球が分化し組織に分布・貪食・抗原提示＝<span class="key">マクロファージ</span>。',
-        '巨核球から生成し止血＝<span class="key">血小板</span>。顆粒球で強い貪食＝<span class="key">好中球</span>。'],
- mode:'text',
- ask:'a〜dの免疫系細胞を答えよ：a=MHC上抗原を認識し感染細胞を破壊 / b=単球由来で全組織に分布し貪食＋抗原提示 / c=巨核球由来で止血 / d=顆粒球で強い貪食。',
- ansHTML:'a＝<b>キラーT細胞（細胞傷害性T細胞、CD8⁺T細胞）</b><br>b＝<b>マクロファージ</b><br>c＝<b>血小板</b><br>d＝<b>好中球</b>',
- final:'a キラーT / b マクロファージ / c 血小板 / d 好中球',
- deep:'bで「樹状細胞」も抗原提示するが「単球が分化」「あらゆる組織に分布し貪食」の記述からマクロファージが最適。'},
-
-{id:'b-ventilation',type:'blood',freq:true,tag:['呼吸','計算'],src:'問4(3)',
+/* ===================== 血液・呼吸・骨・免疫 ===================== */
+{id:'b-ventilation',type:'blood',freq:true,tag:['呼吸','計算'],src:'2022問4(3)/2024問4(2)',
  title:'肺胞換気量の計算',
- learn:['肺胞換気量＝<span class="key">(1回換気量 − 死腔量) × 呼吸数</span>。',
-        '死腔（150mL）はガス交換に関与しない分。'],
- mode:'text',
- ask:'1回換気量450mL、死腔150mL、呼吸数15回/分のとき、1分あたりの肺胞換気量は？',
- ansHTML:'肺胞換気量 =(1回換気量 − 死腔量)× 呼吸数<br>=(450 − 150)× 15 = 300 × 15 = <b>4500 mL/分（＝4.5 L/分）</b>',
- final:'4500 mL/分（4.5 L/分）',
- deep:'毎分換気量(450×15=6750)と混同しないこと。死腔を引くのがポイント。'},
+ learn:['肺胞換気量＝<span class="key">(1回換気量 − 死腔量) × 呼吸数</span>。死腔はガス交換に関与しない。'],
+ mode:'text', ask:'1回換気量450mL、死腔150mL、呼吸数15回/分のとき、1分あたりの肺胞換気量は？',
+ ansHTML:'肺胞換気量 =(450 − 150)× 15 = 300 × 15 = <b>4500 mL/分（4.5 L/分）</b>',
+ final:'4500 mL/分',
+ deep:'毎分換気量(450×15=6750)と混同しない。死腔を引くのが要点。'},
 
-{id:'b-bone',type:'blood',freq:true,tag:['骨','リモデリング','穴埋め'],src:'問4(4)',
- title:'骨リモデリングの穴埋め（a〜h）',
- learn:['骨塩の99%＝<span class="key">ハイドロキシアパタイト(a)</span>。骨芽細胞が分泌する<span class="key">アルカリホスファターゼ(b)</span>でリン酸濃度上昇→<span class="key">カルシウム(c)</span>が膠原繊維に沈着し骨形成。',
-        '骨芽細胞は<span class="key">PTH(d)</span>と<span class="key">活性型ビタミンD(e)</span>で<span class="key">破骨細胞(f)</span>の分化を促進。破骨細胞はH⁺分泌で<span class="key">アパタイト(a)</span>を分解しCa(c)を血中へ。',
-        'ビタミンD前駆体は食物摂取後<span class="key">肝臓(g)</span>と<span class="key">腎臓(h)</span>で水酸化され活性型に。'],
- mode:'text',
- ask:'a〜hを埋めよ（骨塩99%=a、骨芽細胞分泌のb、沈着するc、2ホルモンd・e、分化促進されるf、活性化の水酸化部位g・h）。',
- ansHTML:'<b>a＝ハイドロキシアパタイト（ヒドロキシアパタイト）</b><br><b>b＝アルカリホスファターゼ</b><br><b>c＝カルシウム（Ca²⁺）</b><br><b>d＝副甲状腺ホルモン（PTH）</b>、<b>e＝活性型ビタミンD</b>（＝1,25-(OH)₂ビタミンD₃）<br><b>f＝破骨細胞</b><br><b>g＝肝臓</b>、<b>h＝腎臓</b>',
- final:'a アパタイト b ALP c Ca d PTH e 活性型VitD f 破骨細胞 g 肝臓 h 腎臓',
- deep:'ビタミンD活性化：皮膚/食物→肝臓で25位水酸化→腎臓で1位水酸化→活性型1,25-(OH)₂D₃。骨芽細胞がRANKL等を介して破骨細胞分化を促す。'},
+{id:'b-deadspace',type:'blood',freq:true,tag:['呼吸','計算','Bohr式'],src:'2024問4(1)/2025問4(3)',
+ title:'死腔量の計算（Bohrの式）＋肺胞換気量',
+ learn:['Bohrの式：<span class="key">死腔量 = 1回換気量 ×(肺胞CO₂分圧 − 呼気CO₂分圧)/肺胞CO₂分圧</span>。',
+        '肺胞換気量＝(1回換気量 − 死腔量)×呼吸数。'],
+ mode:'text', ask:'1回換気量520mL、肺胞内CO₂分圧40mmHg、呼気CO₂分圧30mmHgのとき、死腔量と（呼吸数があれば）肺胞換気量を求めよ。',
+ ansHTML:'Bohrの式より死腔量 = 520 ×(40 − 30)/40 = 520 × 10/40 = 520 × 0.25 = <b>130 mL</b>。<br>肺胞1回換気量 = 520 − 130 = <b>390 mL</b>（呼吸数が与えられればこれ×呼吸数が肺胞換気量）。<br>※560mL・40・30の年なら死腔=560×10/40=<b>140mL</b>、肺胞1回換気量=<b>420mL</b>。',
+ final:'死腔=VT×(肺胞CO₂−呼気CO₂)/肺胞CO₂（520→130mL, 560→140mL）',
+ deep:'手書きに140・420とあるのは560mLの年の答え。式は同じ、数値だけ差し替え。'},
+
+{id:'b-starling',type:'blood',freq:true,tag:['循環','計算','スターリング'],src:'2024問4(1)/2025問4(2)',
+ title:'スターリング力：濾過か再吸収かの判定',
+ learn:['正味濾過圧 = <span class="key">(血管内圧 − 組織圧) − (血漿膠質浸透圧 − 間質膠質浸透圧)</span>。',
+        '正なら<span class="key">濾過（血管→組織へ出る）</span>、負なら<span class="key">再吸収（組織→血管へ戻る）</span>。'],
+ mode:'text', ask:'血管内圧15、組織圧3、血漿膠質浸透圧25、間質膠質浸透圧3(mmHg)のとき、正味の液体移動は濾過か再吸収か。',
+ ansHTML:'正味圧 =(血管内圧 − 組織圧) − (血漿膠質浸透圧 − 間質膠質浸透圧)<br>=(15 − 3) − (25 − 3) = 12 − 22 = <b>−10 mmHg</b>。<br>負の値なので液体は血管内へ引き込まれる → <b>再吸収</b>。<br>※膠質浸透圧26・間質2・組織圧0の年なら (15−0)−(26−2)=15−24=−9 → やはり<b>再吸収</b>。',
+ final:'(15−3)−(25−3)=−10 → 再吸収',
+ deep:'静水圧が組織へ押し出す力、膠質浸透圧が血管へ引き戻す力。差の符号で向きが決まる。'},
+
+{id:'b-p50',type:'blood',freq:true,tag:['呼吸','酸素解離曲線'],src:'2022問4(1)/2023問4(1)/2024問4(3)/2025問4(3)',
+ title:'ヘモグロビンの酸素親和性を低下させる要因（P₅₀増加＝右方移動）',
+ learn:['親和性低下＝P₅₀増加＝<span class="key">曲線の右方移動</span>（末梢で酸素を放しやすい）。',
+        '要因：<span class="key">CO₂分圧上昇・pH低下(H⁺増加＝ボーア効果)・温度上昇・2,3-BPG(DPG)増加</span>。',
+        '逆に<span class="key">pH上昇・胎児型Hb</span>は<span class="key">親和性を上げる（左方移動）</span>ので「低下させる」ではない。'],
+ mode:'mcq', ask:'ヘモグロビンの酸素に対する親和性を低下させる条件をすべて選べ：(血液pHの上昇・胎児型ヘモグロビン・赤血球中の2,3-BPGの増加・血液のCO₂分圧の上昇)',
+ opts:['2,3-BPGの増加 と CO₂分圧の上昇','pHの上昇 と 胎児型Hb','4つすべて','CO₂分圧の上昇 のみ'],
+ correct:0,
+ ansHTML:'正解：<b>2,3-BPGの増加 と CO₂分圧の上昇</b>。<br>親和性を低下（右方移動）させるのは<b>CO₂分圧上昇・pH低下・温度上昇・2,3-BPG増加</b>。設問の「<b>pHの上昇</b>」と「<b>胎児型ヘモグロビン</b>」はむしろ<b>親和性を高める（左方移動）</b>ので該当しない。',
+ final:'2,3-BPG増加・CO₂分圧上昇（pH上昇/胎児型Hbは逆）',
+ deep:'3つ挙げる形式なら「CO₂分圧増加・温度上昇・pH低下」。3年生の手書きメモと一致。'},
+
+{id:'b-immune',type:'blood',freq:true,tag:['血液','免疫細胞'],src:'2022問4(2)/2023問4(2)',
+ title:'免疫系の細胞を特徴から同定（a〜e）',
+ learn:['MHC上抗原認識し感染細胞破壊＝<span class="key">キラーT細胞(CD8)</span>。単球由来・全組織分布・貪食+抗原提示＝<span class="key">マクロファージ</span>。',
+        '巨核球由来・止血/粘着凝集＝<span class="key">血小板</span>。顆粒球で強い貪食/炎症で遊走＝<span class="key">好中球</span>。総鉄の約3/4をヘム鉄＝<span class="key">赤血球</span>。'],
+ mode:'text', ask:'a〜e：a=MHC上抗原認識し感染細胞破壊 / b=単球由来で全組織に分布し貪食+抗原提示 / c=巨核球由来で止血 / d=顆粒球で強い貪食 / e=総鉄量の約3/4をヘム鉄として含む。',
+ ansHTML:'a＝<b>キラーT細胞（細胞傷害性T細胞、CD8⁺T細胞）</b><br>b＝<b>マクロファージ</b><br>c＝<b>血小板</b><br>d＝<b>好中球</b><br>e＝<b>赤血球</b>（ヘモグロビンのヘム鉄として体内鉄の大半を保持）',
+ final:'a キラーT / b マクロファージ / c 血小板 / d 好中球 / e 赤血球'},
+
+{id:'b-innate',type:'blood',freq:true,tag:['血液','自然免疫'],src:'2024問4(5)',
+ title:'自然免疫を担う細胞を選ぶ',
+ learn:['自然免疫＝生まれつき備わる非特異的防御。<span class="key">マクロファージ・好中球・NK細胞・樹状細胞・肥満細胞</span>など。',
+        '記憶B細胞・ヘルパーT細胞は<span class="key">獲得（適応）免疫</span>。巨核球は血小板の元で免疫細胞ではない。'],
+ mode:'mcq', ask:'自然免疫を担うものをすべて選べ：(マクロファージ・記憶B細胞・巨核球・ヘルパーT細胞・好中球)',
+ opts:['マクロファージ と 好中球','記憶B細胞 と ヘルパーT細胞','マクロファージ・好中球・巨核球','全部'],
+ correct:0,
+ ansHTML:'正解：<b>マクロファージ と 好中球</b>。<br>どちらも貪食を行う自然免疫の細胞。<b>記憶B細胞・ヘルパーT細胞は獲得（適応）免疫</b>、<b>巨核球は血小板を作る細胞</b>で免疫の実行細胞ではない。',
+ final:'マクロファージ・好中球（記憶B/ヘルパーTは獲得免疫）'},
+
+{id:'b-co2',type:'blood',freq:true,tag:['呼吸','CO2運搬','穴埋め'],src:'2025問4(3)',
+ title:'CO₂運搬とボーア効果の穴埋め（a〜f）',
+ learn:['血中CO₂：約5%が溶解、約2%がタンパク質結合、<span class="key">90%以上が重炭酸イオン(HCO₃⁻)(a)</span>。',
+        'CO₂分圧増加で酸素含量減＝<span class="key">ボーア効果(d)</span>、肺胞での<span class="key">酸素(e)</span>放出を促進…実際は組織で酸素放出。',
+        'CO₂分圧上昇でP₅₀は<span class="key">増加(f)</span>し組織への酸素供給が増える。'],
+ mode:'text', ask:'a〜f：CO₂の90%以上は(a)として存在。CO₂含量は(b)分圧増加に従い(c)する現象を(d)と呼び(e)放出を促進。CO₂分圧上昇でP₅₀は(f)。',
+ ansHTML:'<b>a＝重炭酸イオン（HCO₃⁻／炭酸水素イオン）</b><br><b>b＝O₂（酸素）</b>分圧が同一なら、<b>c＝減少</b>（CO₂分圧増加でO₂含量が下がる）<br><b>d＝ボーア効果</b><br><b>e＝O₂（酸素）</b>の放出を促進<br><b>f＝増加（上昇）</b>（P₅₀が増加＝右方移動）',
+ final:'a HCO₃⁻ b O₂ c 減少 d ボーア効果 e O₂ f 増加',
+ deep:'HCO₃⁻生成は赤血球内の炭酸脱水酵素による（CO₂+H₂O→H₂CO₃→H⁺+HCO₃⁻）。'},
+
+{id:'b-pth',type:'blood',freq:true,tag:['骨','PTH','考察'],src:'2024問4(4)',
+ title:'PTHが血中Ca²⁺を上昇させる機構（骨・腎）',
+ learn:['PTH（副甲状腺ホルモン）の作用：<span class="key">骨</span>で破骨細胞を（間接的に）活性化し<span class="key">骨吸収→Ca²⁺放出</span>。',
+        '<span class="key">腎</span>で遠位尿細管の<span class="key">Ca²⁺再吸収促進</span>＋<span class="key">リン酸排泄促進</span>、さらに<span class="key">活性型ビタミンD産生を促進</span>して腸でのCa吸収↑。'],
+ mode:'text', ask:'副甲状腺ホルモン(PTH)が血中Ca²⁺濃度を上昇させるメカニズムを、PTHが骨および腎臓に及ぼす作用を用いて説明せよ。',
+ ansHTML:'<b>骨</b>：PTHは骨芽細胞を介して<b>破骨細胞を活性化し骨吸収を促進</b>、骨からCa²⁺を血中へ放出させる。<br><b>腎臓</b>：遠位尿細管での<b>Ca²⁺の再吸収を促進</b>する一方で<b>リン酸の再吸収を抑制（排泄を促進）</b>する。さらに腎で<b>活性型ビタミンD（1,25-(OH)₂D₃）の産生を促進</b>し、腸管からのCa²⁺吸収を高める。これらにより血中Ca²⁺濃度が上昇する。',
+ final:'骨吸収↑＋腎Ca再吸収↑/リン排泄↑＋活性型VitD産生↑'},
+
+{id:'b-bone-fill',type:'blood',freq:true,tag:['骨','リモデリング','穴埋め'],src:'2022問4(4)/2023問4(5)',
+ title:'骨リモデリングの穴埋め（a〜h＋カルシトニン）',
+ learn:['骨塩99%＝<span class="key">ハイドロキシアパタイト(a)</span>。骨芽細胞分泌の<span class="key">アルカリホスファターゼ(b)</span>でリン酸濃度↑→<span class="key">カルシウム(c)</span>沈着。',
+        '骨芽細胞は<span class="key">PTH(d)</span>と<span class="key">活性型ビタミンD(e)</span>で<span class="key">破骨細胞(f)</span>分化を促進。破骨細胞はH⁺分泌でアパタイト分解しCa放出。',
+        'ビタミンD活性化＝<span class="key">肝臓(g)</span>と<span class="key">腎臓(h)</span>で水酸化。血中Ca低下ホルモン＝<span class="key">カルシトニン</span>。'],
+ mode:'text', ask:'a〜h：骨塩99%=a、骨芽細胞分泌のb、沈着するc、2ホルモンd・e、分化促進されるf、活性化の水酸化部位g・h。（血中Ca低下ホルモンは？）',
+ ansHTML:'<b>a＝ハイドロキシアパタイト</b>、<b>b＝アルカリホスファターゼ</b>、<b>c＝カルシウム（Ca²⁺）</b>、<b>d＝副甲状腺ホルモン（PTH）</b>、<b>e＝活性型ビタミンD</b>、<b>f＝破骨細胞</b>、<b>g＝肝臓</b>、<b>h＝腎臓</b>。<br>血中Ca²⁺を<b>低下させるホルモン＝カルシトニン</b>（甲状腺傍濾胞細胞から分泌）。',
+ final:'a アパタイト b ALP c Ca d PTH e 活性型VitD f 破骨細胞 g 肝 h 腎 / 低下=カルシトニン',
+ deep:'ビタミンD活性化：皮膚/食物→肝で25位水酸化→腎で1位水酸化→活性型1,25-(OH)₂D₃。'},
+
+{id:'b-ca-fill',type:'blood',freq:true,tag:['骨','Ca調節','穴埋め'],src:'2025問4(4)',
+ title:'カルシウム調節の穴埋め（a〜j）',
+ learn:['血中Ca濃度は細胞内より<span class="key">高い(a)</span>。<span class="key">PTH(b)</span>と<span class="key">活性型ビタミンD(c)</span>が骨芽細胞に結合→間接的に<span class="key">破骨(d)</span>細胞増加→骨吸収→血中Ca<span class="key">上昇(e)</span>。',
+        'ビタミンDは肝と<span class="key">腎(f)</span>で水酸化、特に<span class="key">腸(g)</span>でCa吸収促進。PTHは<span class="key">遠位(h)</span>尿細管でCa再吸収促進、<span class="key">近位(i)</span>尿細管でリン再吸収を<span class="key">抑制(j)</span>。'],
+ mode:'text', ask:'a〜j：血中Caは細胞内より(a)濃度。(b)と(c)が骨芽細胞に結合し間接的に(d)細胞増加で骨吸収→Ca(e)。(c)は肝と(f)で水酸化、(g)でCa吸収促進。(b)は(h)尿細管でCa再吸収、(i)尿細管でリン再吸収を(j)。',
+ ansHTML:'<b>a＝高い</b>、<b>b＝PTH（副甲状腺ホルモン）</b>、<b>c＝活性型ビタミンD</b>、<b>d＝破骨</b>、<b>e＝上昇（増加）</b>、<b>f＝腎臓</b>、<b>g＝腸（小腸）</b>、<b>h＝遠位</b>、<b>i＝近位</b>、<b>j＝抑制（低下）</b>。',
+ final:'a高い b PTH c 活性型VitD d破骨 e上昇 f腎 g腸 h遠位 i近位 j抑制',
+ deep:'PTHは遠位尿細管でCa再吸収↑・近位尿細管でリン再吸収↓（＝リン排泄↑）。血中Caを下げるのはカルシトニン。'},
+
+{id:'b-diabetes',type:'blood',freq:false,tag:['内分泌','糖尿病','比較'],src:'2023問1(3)',
+ title:'I型糖尿病とII型糖尿病の共通点・相違点',
+ learn:['共通：ともに<span class="key">高血糖</span>を呈する糖代謝異常。',
+        'I型：<span class="key">自己免疫等でβ細胞破壊→インスリン分泌が枯渇</span>（絶対的欠乏、若年発症多い、インスリン依存）。',
+        'II型：<span class="key">インスリン抵抗性＋分泌低下</span>（相対的不足、生活習慣・肥満関連、中高年に多い）。'],
+ mode:'text', ask:'I型糖尿病とII型糖尿病の共通点・相違点を挙げて説明せよ。',
+ ansHTML:'【共通点】いずれもインスリン作用不足による<b>慢性高血糖</b>を呈し、放置すると同様の合併症を招く。<br>【相違点】<b>I型</b>は主に<b>自己免疫などで膵β細胞が破壊されインスリンがほとんど分泌されない（絶対的欠乏）</b>。若年発症が多くインスリン治療が必須。<b>II型</b>は<b>インスリン抵抗性（効きにくさ）と分泌低下</b>が組み合わさった<b>相対的不足</b>で、肥満・生活習慣と関連し中高年に多い。',
+ final:'共通=高血糖 / I型=β細胞破壊で絶対的欠乏, II型=抵抗性+分泌低下'},
 ];
 
 /* ================= 状態管理 ================= */
-const TYPE_LABEL={nerve:'神経(問1)',endo:'内分泌(問2)',muscle:'筋・循環(問3)',blood:'血液呼吸骨(問4)'};
+const TYPE_LABEL={nerve:'神経',endo:'内分泌',muscle:'筋・循環',blood:'血液呼吸骨'};
 const state={};CARDS.forEach(c=>state[c.id]='new');
 let filter='all';
 const cardsEl=document.getElementById('cards'),emptyMsg=document.getElementById('emptyMsg');
 function tagHTML(tags,type){return tags.map(t=>{
   let cls='t-'+type;
-  if(t.includes('★'))cls='t-freq';
-  else if(t==='計算')cls='t-calc';
-  else if(t==='穴埋め')cls='t-fill';
+  if(t==='計算')cls='t-calc'; else if(t==='穴埋め')cls='t-fill';
   return `<span class="tag ${cls}">${t}</span>`;}).join('');}
 function stChip(id){const s=state[id];
   return s==='ok'?'<span class="state-chip state-ok">習得済</span>'
@@ -380,9 +557,10 @@ function cardHTML(c){
     ?`<div class="opts">${c.opts.map((o,i)=>`<button class="opt" data-i="${i}">${o}</button>`).join('')}</div>`
     :`<textarea class="answer-in" rows="3" placeholder="自分の答え・キーワードを書いてから解答表示"></textarea>`;
   const deep=c.deep?`<details class="deep"><summary>＋発展・関連ポイント</summary><div class="db">${c.deep}</div></details>`:'';
-  return `<div class="card" data-id="${c.id}" data-type="${c.type}" data-mode="${c.mode}">
+  const freqBadge=c.freq?'<span class="freqbadge">★複数年</span>':'';
+  return `<div class="card" data-id="${c.id}" data-type="${c.type}" data-mode="${c.mode}" data-freq="${c.freq?1:0}">
     <span class="qnum">${c.src}</span>
-    ${tagHTML(c.tag,c.type)}${stChip(c.id)}
+    ${tagHTML(c.tag,c.type)}${freqBadge}${stChip(c.id)}
     <div class="q-title">${c.title}</div>
     <div class="learn"><div class="lbl">📥 INPUT ｜ 要点をインプット</div>${learn}</div>
     <div class="ask"><b>📤 OUTPUT ｜</b> ${c.ask}</div>
@@ -406,6 +584,7 @@ function cardHTML(c){
 function render(){
   let list=CARDS;
   if(filter==='review')list=CARDS.filter(c=>state[c.id]==='review');
+  else if(filter==='freq')list=CARDS.filter(c=>c.freq);
   else if(filter!=='all')list=CARDS.filter(c=>c.type===filter);
   cardsEl.innerHTML=list.map(cardHTML).join('');
   emptyMsg.style.display=list.length?'none':'block';
@@ -479,42 +658,53 @@ tBtn.addEventListener('click',()=>{
 
 document.getElementById('cheat').innerHTML=`
   <div class="cheat-card">
-    <h3>⚡ 神経（問1・金先生）</h3>
+    <h3>⚡ 神経</h3>
     <ul>
-      <li><b>活動電位</b>：全か無か・大きさ一定・非減衰伝導・不応期あり ／ <b>局所応答</b>：段階的・減衰・加重可・不応期なし</li>
-      <li><b>通常型伝達</b>＝イオンチャネル型受容体・速い ／ <b>調節性伝達</b>＝代謝型(G蛋白)受容体・セカンドメッセンジャー・遅く持続</li>
-      <li><b>グリア</b>：アストロサイト(栄養/血液脳関門/K⁺調節)、オリゴデンドロサイト(中枢の髄鞘)、ミクログリア(貪食)、シュワン細胞(末梢の髄鞘)</li>
+      <li><b>活動電位</b>：全か無か・非減衰伝導・不応期あり ／ 局所応答：段階的・減衰・加重可</li>
+      <li><b>発生機構</b>：Na⁺コンダクタンス↑で脱分極→K⁺コンダクタンス↑で再分極→後過分極</li>
+      <li><b>血液脳関門</b>：内皮の密着結合＋アストロサイト足突起で物質を選択制限</li>
+      <li><b>桿体</b>=暗所/色なし ／ <b>錐体</b>=明所/色覚。共に視細胞で光→過分極</li>
+      <li><b>視細胞の光変換</b>：光→ロドプシン→PDE→cGMP分解→Naチャネル閉→過分極</li>
+      <li><b>側方抑制</b>：隣接細胞を抑制→境界コントラスト強調(カブトガニ複眼)</li>
     </ul>
   </div>
   <div class="cheat-card">
-    <h3>💊 内分泌（問2・吉村先生）</h3>
+    <h3>💊 内分泌</h3>
     <ul>
-      <li><b>定義</b>：内分泌腺→血中→遠隔標的の特異受容体、微量で作用</li>
-      <li><b>分泌様式</b>：内分泌 / 傍分泌 / 自己分泌（＋神経分泌）</li>
-      <li><b>核内受容体型</b>＝脂溶性(ステロイド・甲状腺ホルモン)→転写調節。水溶性(インスリン等)は膜表面受容体</li>
-      <li>甲状腺ホルモンは<b>遊離型(非結合)が活性</b></li>
+      <li><b>外分泌</b>=導管あり体外/管腔へ ／ <b>内分泌</b>=導管なし血中へ</li>
+      <li><b>化学分類</b>：ペプチド(インスリン)/ステロイド(コルチゾール)/アミン(アドレナリン)</li>
+      <li><b>受容体</b>：G蛋白共役型/酵素連結型(インスリン)/核内(ステロイド・甲状腺H)</li>
+      <li><b>負のFB</b>=甲状腺H→TSH抑制など(大多数) ／ <b>正のFB</b>=LHサージ・オキシトシン</li>
+      <li><b>甲状腺H</b>は遊離型が活性。脂溶性→核内受容体で転写調節</li>
+      <li><b>インスリン</b>：ランゲルハンス島β細胞。筋/脂肪/肝で糖取込→グリコーゲン/中性脂肪で貯蔵</li>
     </ul>
   </div>
   <div class="cheat-card">
-    <h3>💪 筋・循環（問3・阿部先生）</h3>
+    <h3>💪 筋・循環</h3>
     <table>
       <tr><th></th><th>骨格筋</th><th>平滑筋</th></tr>
       <tr><td>Ca²⁺標的</td><td>トロポニンC</td><td>カルモジュリン</td></tr>
       <tr><td>機構</td><td>結合部位露出</td><td>MLCK→軽鎖リン酸化</td></tr>
     </table>
     <ul style="margin-top:8px">
-      <li><b>洞房結節</b>：自動能・緩徐脱分極・Ca²⁺立ち上がり＝ペースメーカー ／ <b>心室筋</b>：Na⁺急峻+Ca²⁺プラトー＝収縮ポンプ</li>
-      <li><b>血管壁</b>：内膜・中膜・外膜。動脈の弾性＝拍動を平滑化(ウィンドケッセル効果)</li>
-      <li><b>副腎</b>：糖質(束状層,コルチゾール,血糖↑/免疫抑制) / 鉱質(球状層,アルドステロン,尿細管でNa⁺再吸収↑)</li>
+      <li>骨格筋EC連関：ACh→活動電位→T管→SRからCa²⁺→トロポニンC→滑走</li>
+      <li><b>洞房結節</b>=自動能ペースメーカー(右心房) ／ <b>心室筋</b>=Na⁺急峻+Ca²⁺プラトー→収縮</li>
+      <li><b>血管壁</b>：内膜/中膜/外膜。動脈=弾性で拍動平滑化(ウィンドケッセル)、静脈=薄壁+弁</li>
+      <li><b>僧帽弁</b>：閉=②③④（心室圧高い）／開=①⑤（充満）</li>
+      <li><b>闘争か逃避</b>=アドレナリン/ノルアドレナリン(急性) ／ <b>抵抗反応</b>=CRH→ACTH→コルチゾール(持続)</li>
+      <li><b>副腎</b>：糖質(束状層,血糖↑/免疫抑制)/鉱質(球状層,尿細管Na⁺再吸収↑)</li>
     </ul>
   </div>
   <div class="cheat-card">
-    <h3>🩸 血液・呼吸・骨（問4・大川先生）</h3>
+    <h3>🩸 血液・呼吸・骨（計算多め）</h3>
     <ul>
-      <li><b>P₅₀増加(右方移動)</b>：CO₂↑・pH↓(H⁺↑,ボーア)・温度↑・2,3-BPG↑</li>
-      <li><b>免疫細胞</b>：キラーT(感染細胞破壊) / マクロファージ(単球由来,貪食+抗原提示) / 血小板(巨核球,止血) / 好中球(顆粒球,貪食)</li>
       <li><b>肺胞換気量</b>=(1回換気量−死腔)×呼吸数＝(450−150)×15=<b>4500mL/分</b></li>
-      <li><b>骨</b>：アパタイト(骨塩99%)、ALP(骨芽細胞分泌)、Ca沈着、PTH+活性型VitDが破骨細胞分化促進、VitD活性化=肝→腎で水酸化</li>
+      <li><b>死腔(Bohr)</b>=VT×(肺胞CO₂−呼気CO₂)/肺胞CO₂（520,40,30→130mL / 560→140mL）</li>
+      <li><b>スターリング</b>=(血管内圧−組織圧)−(血漿膠質浸透圧−間質膠質浸透圧)。正=濾過/負=再吸収</li>
+      <li><b>P₅₀増加(右方移動)</b>：CO₂↑・pH↓・温度↑・2,3-BPG↑（pH上昇/胎児型Hbは逆＝左方移動）</li>
+      <li><b>免疫細胞</b>：キラーT/マクロファージ/血小板/好中球/赤血球(鉄)。自然免疫=マクロファージ・好中球</li>
+      <li><b>PTH</b>：骨吸収↑＋腎でCa再吸収↑/リン排泄↑＋活性型VitD産生↑→血中Ca↑。<b>カルシトニン</b>=Ca↓</li>
+      <li><b>骨</b>：アパタイト(99%)、ALP(骨芽細胞)、VitD活性化=肝→腎で水酸化</li>
     </ul>
   </div>
 `;
